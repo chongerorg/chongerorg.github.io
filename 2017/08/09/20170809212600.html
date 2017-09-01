@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angularjs2 基础模板语法学习 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
+  
+  
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,andorid,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Angularjs2 基础模板语法学习"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">花开花败，终成一曲流年，花开不败，倾尽一生爱恋。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2017-08-09T13:26:39.000Z"><a href="/2017/08/09/20170809212600.html">2017-08-09</a></time>
+      
+      
+  
+    <h1 class="title">Angularjs2 基础模板语法学习</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>首先，我们先弄清楚一些概念性的东西。</p>
+<ul>
+<li><strong>属性型指令</strong> 和 <strong>结构型指令</strong><br>其实通过字面意思我们可以大致理解到：<strong>属性型</strong>就是会改变 DOM 元素的外观或行为。而<strong>结构型</strong>则是修改DOM结构，用来添加、移除或者维护元素。<strong>结构型指令</strong>会以<code>*</code>标记，比如：<code>*ngIf</code>、<code>*ngFor</code>。<br>对照点例子方便理解下，比如在Angular1中的<code>ng-class</code>就是<strong>属性型指令</strong>，使用后会影响元素的外观。而<code>ng-if</code>则是<strong>结构型指令</strong>，可以操作元素的添加或者移除。</li>
+</ul>
+<p>接下来，主要介绍下在开发中需要掌握的知识点：<br><a id="more"></a></p>
+<ol>
+<li><p><strong>插值表达式</strong>  <code>{{表达式}}</code></p>
+<p> 这个大家应该都不陌生吧，通俗的理解就是：<strong>HTML中的输出语句</strong>，可以将JS种的一些变量输出到HTML元素中。</p>
+ <figure class="highlight html"><figcaption><span>HTML模板</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>欢迎你, &#123;&#123;userName&#125;&#125;!<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div></pre></td></tr></table></figure>
+<p> 我们假设在渲染时，<code>userName = &quot;Daniel&quot;</code>，那么将会呈现的结果为：</p>
+ <figure class="highlight html"><figcaption><span>HTML渲染结果</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>欢迎你, Daniel!<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>NgIf</strong> <code>*ngIf=&quot;表达式&quot;</code></p>
+<p> <strong>NgIf指令</strong>可以使我们从DOM中去移除和添加元素，类似于Angular1的 <code>ng-if=&quot;表达式&quot;</code> 或者 Vue中的 <code>v-if</code>。当NgIf指令的表达式结果为<code>false</code>时，则会从DOM中移除整个元素，如果作用在一个Angular组件上，则会销毁组件及其子组件。</p>
+ <figure class="highlight html"><figcaption><span>HTML模板</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h3</span> *<span class="attr">ngIf</span>=<span class="string">"isActive"</span>&gt;</span>欢迎你, Angular!<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div></pre></td></tr></table></figure>
+<p> 我们假设在渲染时，<code>isActive = true</code>，则会展现该元素，如果<code>isActive = false</code>，则会从DOM中移除该元素。</p>
+</li>
+<li><p><strong>NgFor</strong> <code>*ngFor=&quot;遍历语句&quot;</code></p>
+<p> <strong>NgFor指令</strong>可以对数据进行循环输出，常用于<strong>列表</strong>之类的场景，会重复渲染当前所作用的元素。类似于Angular1的 <code>ng-repeat</code> 或者 Vue中的 <code>v-for</code>。</p>
+ <figure class="highlight html"><figcaption><span>HTML模板</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngFor</span>=<span class="string">"let item of list"</span>&gt;</span>&#123;&#123;item&#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p> 我们假设在渲染时，<code>list = [&#39;苹果&#39;,&#39;橘子&#39;,&#39;香蕉&#39;]</code>，那么将会呈现的结果为：</p>
+ <figure class="highlight html"><figcaption><span>HTML渲染结果</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>苹果<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>橘子<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>香蕉<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>NgSwitch</strong> <code>ngSwitch=&quot;表达式&quot;</code>、<code>*ngSwitchCase</code>、<code>*ngSwitchDefault</code></p>
+<p> <strong>NgSwitch指令</strong>是一个<strong>属性型指令</strong>用来绑定一个表达式，<strong>NgSwitchCase</strong>、<strong>NgSwitchDefault</strong>是<strong>结构型指令</strong>主要用来控制DOM元素是否显示。<strong>NgSwitch</strong>和我们代码逻辑中的<code>switch</code>意义是一样的，都表示根据变量值来匹配相应的 case 来执行。正在Angular中，只会把匹配的元素加入到DOM中。</p>
+ <figure class="highlight html"><figcaption><span>HTML模板</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> [<span class="attr">ngSwitch</span>] = <span class="string">"timeType"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngSwitchCase</span>=<span class="string">"'凌晨'"</span>&gt;</span>夜已深了，早点休息哦！<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngSwitchCase</span>=<span class="string">"'清晨'"</span>&gt;</span>一日之计在于晨！<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngSwitchCase</span>=<span class="string">"'上午'"</span>&gt;</span>喝点水哦，坐久了要动动脖子哦！<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngSwitchDefault</span>&gt;</span>天天开心好心情！<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p> 我们假设在渲染时，<code>timeType=&#39;清晨&#39;</code>，那么将会呈现的结果为：</p>
+ <figure class="highlight html"><figcaption><span>HTML渲染结果</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>一日之计在于晨！<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>NgClass</strong> <code>[ngClass]=&quot;{key:value}&quot;</code></p>
+<p> 通过<code>[class.类名] = &quot;true|false&quot;</code>可以动态的添加或者删除某个class样式，如果是想进行一组class样式的设置，可以使用<code>[ngClass]</code>。<br> <code>[ngClass]</code>需要绑定在一个<code>key:value</code>的对象上，<code>key</code>指定的是class类名，<code>value</code>则为 <strong>true(应用)</strong> 或者 <strong>false(不应用)</strong>。<br> 对应Angular1中的 <code>ng-class</code>使用方式。</p>
+ <figure class="highlight js"><figcaption><span>ngClass定义</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.currentClasses = &#123;</div><div class="line">    <span class="string">'saveable'</span>: <span class="keyword">this</span>.canSave,</div><div class="line">    <span class="string">'modified'</span>: <span class="keyword">this</span>.isUnchanged,</div><div class="line">    <span class="string">'special'</span>: <span class="keyword">this</span>.isSpecial</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+ <figure class="highlight html"><figcaption><span>ngClass使用</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> [<span class="attr">ngClass</span>]=<span class="string">"currentClasses"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>NgStyle</strong>  <code>[ngStyle]=&quot;{key:value}&quot;</code></p>
+<p> 通过<code>[style.样式属性]=&quot;样式值&quot;</code>可以设置单一样式的值，如果选设置多个，可以使用<code>[ngStyle]</code>。<br> <code>[ngStyle]</code>也是需要绑定一个<code>key:value</code>的对象上，<code>key</code>指定的是style的样式名，<code>value</code>则为样式的值。<br> 对应Angular1中的<code>ng-style</code>使用方式。</p>
+ <figure class="highlight js"><figcaption><span>ngStyle定义</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.currentStyles = &#123;</div><div class="line">    <span class="string">'font-style'</span>: <span class="keyword">this</span>.canSave ? <span class="string">'italic'</span> : <span class="string">'normal'</span>,</div><div class="line">    <span class="string">'font-weight'</span>: <span class="keyword">this</span>.isUnchanged ? <span class="string">'bold'</span> : <span class="string">'normal'</span>,</div><div class="line">    <span class="string">'font-size'</span>: <span class="keyword">this</span>.isSpecial ? <span class="string">'24px'</span> : <span class="string">'12px'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+ <figure class="highlight html"><figcaption><span>ngStyle使用</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> [<span class="attr">ngStyle</span>]=<span class="string">"currentStyles"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>数据绑定汇总</strong><br> 在Angularjs2中，数据绑定完全的换了一种书写方式，我们简单的列举下常用的绑定方式：</p>
+<p> <strong>Property</strong>绑定，主要针对的目标是：<strong>元素的 Property</strong>、<strong>组件的 Property</strong>、<strong>指令的 Property</strong></p>
+ <figure class="highlight html"><figcaption><span>Property绑定</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> [<span class="attr">src</span>]=<span class="string">"value"</span>&gt;</span>  <span class="comment">&lt;!-- 将img的src属性绑定到当前组件的value属性上 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hero-detail</span> [<span class="attr">hero</span>]=<span class="string">"currentHero"</span>&gt;</span><span class="tag">&lt;/<span class="name">hero-detail</span>&gt;</span> <span class="comment">&lt;!-- 主要可用于父子组件间的通讯 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> [<span class="attr">ngClass</span>]=<span class="string">"&#123;'special': isSpecial&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span> <span class="comment">&lt;!-- 和Angular1中的ng-class作用是一致的 --&gt;</span></div></pre></td></tr></table></figure>
+<p> <strong>事件</strong>绑定，主要针对的目标是：<strong>元素的事件</strong>、<strong>组件的事件</strong>、<strong>指令的事件</strong></p>
+ <figure class="highlight html"><figcaption><span>事件绑定</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> (<span class="attr">click</span>)=<span class="string">"onSave()"</span>&gt;</span>Save<span class="tag">&lt;/<span class="name">button</span>&gt;</span> <span class="comment">&lt;!-- 绑定按钮的 onClick 事件 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hero-detail</span> (<span class="attr">deleteRequest</span>)=<span class="string">"deleteHero()"</span>&gt;</span><span class="tag">&lt;/<span class="name">hero-detail</span>&gt;</span> <span class="comment">&lt;!-- 将事件传递给组件事件 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> (<span class="attr">myClick</span>)=<span class="string">"clicked=$event"</span> <span class="attr">clickable</span>&gt;</span>Click me<span class="tag">&lt;/<span class="name">div</span>&gt;</span> <span class="comment">&lt;!-- 绑定自定义事件 --&gt;</span></div></pre></td></tr></table></figure>
+<p> <strong>双向</strong>绑定，事件以及Property通用</p>
+ <figure class="highlight html"><figcaption><span>双向绑定</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> [(<span class="attr">ngModel</span>)]=<span class="string">"name"</span>&gt;</span> <span class="comment">&lt;!-- 双向绑定，类似angular1中的 ng-model="name" --&gt;</span></div></pre></td></tr></table></figure>
+<p> <strong>Attribute</strong>绑定，主要针对的目标是：<strong>Attribute</strong></p>
+ <figure class="highlight html"><figcaption><span>Attr属性绑定</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> [<span class="attr">attr.data-label</span>]=<span class="string">"help"</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+<p> <strong>Css类</strong>绑定，主要针对的目标是: <strong>class property</strong></p>
+ <figure class="highlight html"><figcaption><span>css绑定</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> [<span class="attr">class.special</span>]=<span class="string">"isSpecial"</span>&gt;</span>Special<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p> <strong>样式</strong>绑定，主要针对的目标是：<strong>style property</strong></p>
+ <figure class="highlight html"><figcaption><span>style绑定</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> [<span class="attr">style.color</span>]=<span class="string">"isSpecial ? 'red' : 'green'"</span>&gt;</span><span class="tag">&lt;<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<!-- 
+模板语法，其实就是我们在HTML中使用的，我们在Angular1中也常常用到过，下面我们主要对常用的**模板语法**进行下学习介绍。
+
+2. **模板表达式**
+模板表达式，必须返回一个值，这样才能在执行表达式后将返回的值进行输出(绑定)使用。
+
+3. **表达式上下文**-->
+      
+    </div>
+    <footer>
+      
+
+        
+          <div class="alignleft post-nav">
+            <em>上一篇: </em><a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+          </div>
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2017/08/09/20170809212600.html">
+                  http://chonger.org/2017/08/09/20170809212600.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/angularjs2/">angularjs2</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+    
+      <a class="addthis_button_sinaweibo_like"></a>
+    
+    
+      <a class="addthis_button_linkedin"></a>
+    
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+  <section id="comments">
+    <!-- ��˵���ۿ� start -->
+    <div class="ds-thread" data-thread-key="post-20170809212600" data-title="Angularjs2 基础模板语法学习" data-url="http://chonger.org/2017/08/09/20170809212600.html"></div>
+    <!-- ��˵���ۿ� end -->
+    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'chonger90'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- ��˵����JS���� end -->
+  </section>
+  
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>4</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>2</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/桔梗/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>7</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+      <li>
+        <a href="/2017/06/13/20170613172600.html">VS Code语言配置</a>
+      </li>
+    
+      <li>
+        <a href="/2017/05/21/20170521152700.html">android的入门知识扫盲</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/12/20170212222400.html">解决github博客不被百度蜘蛛采集的办法</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/10/20170210090400.html">AngularJs 自定义表单验证(依赖验证)</a>
+      </li>
+    
+      <li>
+        <a href="/2016/11/07/20161107000000.html">秋日随感</a>
+      </li>
+    
+      <li>
+        <a href="/2016/09/01/20160901141600.html">黄磊：中国很多父母的教育都是&quot;混蛋&quot;逻辑</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>

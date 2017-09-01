@@ -1,0 +1,363 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angularjs2 再谈数据绑定 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
+  
+  
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,andorid,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Angularjs2 再谈数据绑定"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">花开花败，终成一曲流年，花开不败，倾尽一生爱恋。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2017-08-14T09:12:02.000Z"><a href="/2017/08/14/20170814171100.html">2017-08-14</a></time>
+      
+      
+  
+    <h1 class="title">Angularjs2 再谈数据绑定</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在开始之前，我们先做一个简单的测试，假设有如下HTML片段：<br><figure class="highlight html"><figcaption><span>测试html代码</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"inDemo"</span> <span class="attr">value</span>=<span class="string">"Hello"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>我们不难想象，运行后页面上会出现一个单行文本输入框，然后默认的值为 Hello。然后我们可以通过开发者工具的Console来执行一些临时的脚本，我们先获取这个元素：<br><figure class="highlight js"><figcaption><span>获取测试元素</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> inDemo = <span class="built_in">document</span>.getElementById(<span class="string">'inDemo'</span>);</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>然后接着操作，在界面上我们将输入框的Hello，修改为Angular，然后在Console中通过js获取input的value：<br><figure class="highlight js"><figcaption><span>获取input的value值</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(inDemo.value);</div></pre></td></tr></table></figure></p>
+<p>毋容置疑，会输出字符串Angular，那么，如果继续测试，执行下面的语句会输出什么呢？<br><figure class="highlight js"><figcaption><span>获取input的attribute值</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(inDemo.getAttribute(<span class="string">'value'</span>));</div></pre></td></tr></table></figure></p>
+<p>这里的结果会输出 Hello，那么这里的<code>.value</code> 和 <code>.getAttribute(&#39;value&#39;)</code> 区别在哪里呢？ 这个就是我们这个测试的目的，也就是下面将要说明的 <strong> HTML Attribute </strong> 和 <strong> DOM Property </strong>。</p>
+<h3 id="HTML-Attribute-和-DOM-Property-的区别"><a href="#HTML-Attribute-和-DOM-Property-的区别" class="headerlink" title=" HTML Attribute  和  DOM Property  的区别"></a><strong> HTML Attribute </strong> 和 <strong> DOM Property </strong> 的区别</h3><p>Attribute 和 Property 的翻译都是属性的意思，加上完整的语义，那么可以表示为 HTML属性和 DOM属性，那么为什么会有这两个都是属性的东西存在呢？这个就要先简单了解下浏览器的工作方式。</p>
+<p>浏览器会将获取到的HTML文本(网页)，通过解析HTML文件生成DOM树，如果有接触过其他编程语言应该会了解到树型结构的数据，也就是一些语言中的<code>Node</code>、<code>TreeNode</code>等，没错，在Javascript中，DOM树中元素会被创建成一个<code>HTMLElement</code>对象，而这个<code>HTMLElement</code>对象也包含有一些属性，这些属性就是上面说的<code>DOM Property</code>，而<code>HTMLElement</code>对象一些属性的初始值则是通过<code>HTML Attribute</code>来的。</p>
+<p>那么整体的逻辑应该是这样的：</p>
+<ul>
+<li>一段HTML片段<code>&lt;input id=&quot;inDemo&quot; value=&quot;Hello&quot;&gt;</code></li>
+<li>浏览器解析创建一个<code>HTMLElement</code>对象</li>
+<li>根据<code>HTML Attribute</code>初始化对象属性，<code>id=inDemo</code>,<code>value=Hello</code></li>
+</ul>
+<p>其实这个思维，我们在一些其他的开发中也有用到过，比如我们的程序在启动时需要读取配置文件，然后将配置文件中定义的属性值，转换为运行时的对象，从而在程序中来使用，如果在运行时修改配置对象的值，而不会影响配置文件的值，<code>HTML Attribute</code> 和 <code>DOM Property</code>和这种方式可以看做是一致的。</p>
+<p>我们可以看一下创建的对象都有哪些属性，接着测试，在Console窗口中执行:<code>console.dir(inDemo)</code><br><img src="/2017/08/14/20170814171100/console.dir.png" alt="创建的HTMLElement对象"></p>
+<p>可以看到，会拥有非常多的属性和事件，其中的<code>id</code>也已经被赋值为<code>inDemo</code>， 蓝色框的<code>disabled:false</code>可以关注下，后面会介绍这个属性。</p>
+<p>了解这些的意义是什么？ 其实了解这些，只是需要明白一点，现阶段的前端框架，附带的数据双向绑定功能，<code>Attribute</code>只是初始化了元素状态，打交道的都是<code>DOM Property</code>，而我们在<code>javascript</code>中使用的也是<code>DOM Property</code>，只有明白了这点，才能更好的理解以及避免出现的一些问题，比如，常用的元素禁用，有时候我们为了禁用一个元素会这样写：<br><figure class="highlight html"><figcaption><span>禁用input</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"inDemo"</span> <span class="attr">value</span>=<span class="string">"Hello"</span> <span class="attr">disabled</span>=<span class="string">"false"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这个渲染出来的文本框是禁用的还是可用的呢？ 实际效果是禁用状态，可是明明给<code>disabled</code>赋值是<code>false</code>的呀。其实<code>HTMLElement</code>对象的默认<code>disabled</code>属性值是<code>false</code>，然后 <code>HTML Attribute</code>中只要出现了<code>disabled</code>就会将<code>HTMLElement</code>对象的<code>disabled</code>设置为<code>true</code>，和<code>HTML Attribute</code>中<code>disabled</code>取值无关。</p>
+<p>总的来讲，<strong>attribute</strong> 是由 <strong>HTML</strong> 定义的，<strong>property</strong> 是由 DOM(Document Object Model) 定义的，且具有一些关系：</p>
+<ul>
+<li>少量 HTML <strong>Attribute</strong> 和 <strong>Property</strong> 之间有着 1:1 的映射，比如：<strong>id</strong>、<strong>name</strong>、<strong>value</strong>。</li>
+<li>有些 HTML <strong>Attribute</strong> 没有对应的 <strong>Property</strong>，比如：<strong>colspan</strong>。</li>
+<li>有些 DOM <strong>Property</strong> 没有对应的 <strong>Attribute</strong>，比如：<strong>textContent</strong>。</li>
+<li>大量 HTML <strong>Attribute</strong> 看起来像是映射到了 <strong>Property</strong>，但是并不是我们想的那样。</li>
+</ul>
+<h3 id="使用-NgModel-完成数据双向绑定"><a href="#使用-NgModel-完成数据双向绑定" class="headerlink" title="使用 NgModel 完成数据双向绑定"></a>使用 <strong>NgModel</strong> 完成数据双向绑定</h3><p>在上一篇我们简单提到，在input中的数据双向绑定使用<code>[(ngModel)]=&quot;&quot;</code>，在Angularjs2中，使用<code>ngModel</code>进行双向绑定之前，需要导入<code>FormsModule</code>模块。</p>
+<p>在开始介绍<code>[(ngModel)]</code>之前，我们先简单的了解下数据绑定。通俗的理解就是：<strong>将当前上下文中数据绑定给模板或者指令属性等</strong>。那么既然是绑定就需要了解绑定涉及到的两个概念：<strong>绑定目标</strong> 和 <strong>绑定数据源</strong>。</p>
+<p>绑定的规则是：<code>目标 = 源</code>，其实我们可以理解为<strong>赋值</strong>，变量的赋值。</p>
+<p>绑定的目标是绑定符：<code>[]</code>、<code>()</code>、<code>[()]</code> 中的属性或者事件名，且只能绑定到显示标记为<strong>输入[]</strong>和<strong>输出()</strong>的属性，这点后面会做下说明。</p>
+<p>接着回到<code>[(ngModel)]</code>，我们可以看到包裹<code>ngModel</code>既是输入又是输出，其实这是一个语法糖，<code>ngModel</code>指令的完整写法为：<br><figure class="highlight html"><figcaption><span>ngModel完整写法</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> [<span class="attr">ngModel</span>]=<span class="string">"name"</span> (<span class="attr">ngModelChange</span>)=<span class="string">"name=$event"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>一般建议使用封装好的<code>[(ngModel)]</code>的方式，如果需要在用户输入的时候做些转换处理，则第二种是很方便的。当然，也可以直接利用 <code>&lt;input&gt;</code> 元素的<code>value</code>属性和<code>input</code>事件来实现绑定效果：<br><figure class="highlight html"><figcaption><span>实现绑定</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">input</span> [<span class="attr">value</span>]=<span class="string">"name"</span> (<span class="attr">input</span>)=<span class="string">"name=$event.target.value"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>具体在<code>指令</code>的学习时会再次深入<code>ngModel</code>指令进行分析，接下来简单聊下 <strong>输入(@Input)</strong> 和 <strong>输出(@Output)</strong>。</p>
+<p>这里借用官方的一张图：<br><img src="/2017/08/14/20170814171100/input-output.png" alt="Input和Output的示意"></p>
+<p>从图中可以看出，一般属性的赋值会被称作为<strong>输入</strong>，表示数据从当前的上下文中流入到指定的指定上。<br>而事件的赋值则被称为<strong>输出</strong>，表示事件调用会执行外部的处理器。</p>
+<p>在<code>指令</code>的学习中会详细的涉及到<code>@Input()</code> 和 <code>@Output()</code>。</p>
+
+      
+    </div>
+    <footer>
+      
+
+        
+          <div class="alignleft post-nav">
+            <em>上一篇: </em><a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+          </div>
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2017/08/14/20170814171100.html">
+                  http://chonger.org/2017/08/14/20170814171100.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/angularjs2/">angularjs2</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+    
+      <a class="addthis_button_sinaweibo_like"></a>
+    
+    
+      <a class="addthis_button_linkedin"></a>
+    
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+  <section id="comments">
+    <!-- ��˵���ۿ� start -->
+    <div class="ds-thread" data-thread-key="post-20170814171100" data-title="Angularjs2 再谈数据绑定" data-url="http://chonger.org/2017/08/14/20170814171100.html"></div>
+    <!-- ��˵���ۿ� end -->
+    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'chonger90'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- ��˵����JS���� end -->
+  </section>
+  
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>4</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>2</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/桔梗/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>7</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+      <li>
+        <a href="/2017/06/13/20170613172600.html">VS Code语言配置</a>
+      </li>
+    
+      <li>
+        <a href="/2017/05/21/20170521152700.html">android的入门知识扫盲</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/12/20170212222400.html">解决github博客不被百度蜘蛛采集的办法</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/10/20170210090400.html">AngularJs 自定义表单验证(依赖验证)</a>
+      </li>
+    
+      <li>
+        <a href="/2016/11/07/20161107000000.html">秋日随感</a>
+      </li>
+    
+      <li>
+        <a href="/2016/09/01/20160901141600.html">黄磊：中国很多父母的教育都是&quot;混蛋&quot;逻辑</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>

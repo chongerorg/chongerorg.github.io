@@ -1,0 +1,376 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angularjs2 指令 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
+  
+  
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,andorid,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Angularjs2 指令"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">花开花败，终成一曲流年，花开不败，倾尽一生爱恋。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2017-08-17T13:56:32.000Z"><a href="/2017/08/17/20170817215600.html">2017-08-17</a></time>
+      
+      
+  
+    <h1 class="title">Angularjs2 指令</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在Angular1中，会经常使用到指令，主要作为一些功能组件的封装，通过<code>module.directive(name, function){}</code>来创建一个指令，然后通过<code>restrict</code>属性的<code>ECMA</code>来约束指令的使用位置，所以我们可以将一些通用的模块功能，封装为一个指令，然后在开发中直接使用指令就可完成相关功能的导入，而在Angularjs2中，指令的这个目标当然还是保持一致的。</p>
+<p>在Angularjs2中，指令主要分为三种类型：</p>
+<ol>
+<li>组件 - 带有模板的指令(组件皆指令)</li>
+<li>结构型指令 - 作用于DOM元素修改视图结构的指令(<code>NgIf</code>、<code>NgFor</code>等)</li>
+<li>属性型指令 - 作用于DOM元素的外观和行为的指令(<code>NgStyle</code>等)<a id="more"></a>
+</li>
+</ol>
+<p><strong>属性型指令</strong><br>在前面基础语法中也提到过<strong>属性型指令</strong>，这里就依据教程简单的了解下自定义指令的写法，实现目标是：自定义实现一个可以修改元素内容以及样式的指令。<br><figure class="highlight js"><figcaption><span>自定义属性型指令</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Directive, ElementRef, Renderer2, AfterViewInit&#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="comment">//指令声明</span></div><div class="line">@Directive(&#123; <span class="attr">selector</span>: <span class="string">'[directiveDemo]'</span> &#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoDirective</span> <span class="title">implements</span> <span class="title">AfterViewInit</span></span>&#123;</div><div class="line">    <span class="keyword">constructor</span>(</div><div class="line">        private el: ElementRef,</div><div class="line">        private render: Renderer2)&#123;&#125;</div><div class="line">    </div><div class="line">    ngAfterViewInit():<span class="keyword">void</span> &#123;</div><div class="line">        <span class="keyword">this</span>.render.setProperty(<span class="keyword">this</span>.el.nativeElement, <span class="string">"innerHTML"</span>, <span class="string">"Hi Directive!"</span>);</div><div class="line">        <span class="keyword">this</span>.render.setStyle(<span class="keyword">this</span>.el.nativeElement, <span class="string">"color"</span>, <span class="string">"red"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>通过<code>Directive</code>注解来声明为指令，并配置指令元数据。</li>
+<li>元数据中<code>selector</code>值为自定义的基于attribute的css选择器，用于通过元素的attribute来选择元素。</li>
+<li>通过注入<code>ElementRef</code>可以获取到当前元素的引用，可以使用nativeElement。 </li>
+<li>通过注入<code>Renderer2</code> 可以使用统一的接口对当前元素进行访问和操作。由于<strong>Angular</strong>提倡的是<strong>一套框架，多种平台</strong>，所以建议使用统一的接口访问。</li>
+<li>实现生命周期中的<code>AfterViewInit</code>函数，可以是我们在指令初始化完成后完成一些操作。</li>
+</ul>
+<p>我们在自定义指令中，通过<code>Renderer2</code>对象的<code>setProperty</code>和<code>setStyle</code>接口来完成<code>innerHTML</code>和style的<code>color</code>设置。</p>
+<p>然后将指令添加到的<code>@NgModule</code>的<code>declarations</code>中，然后在模板中使用指令：<br><figure class="highlight html"><figcaption><span>使用自定义指令</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">directiveDemo</span>&gt;</span>Demo<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行结果将会看到一个<strong>红色</strong>的<strong>Hi Directive!</strong>出现在界面上。</p>
+<p><strong>结构型指令</strong><br>结构型指令其实就是会修改HTML的布局，一般使用<strong>*</strong>(星号)来标识。简单的实现一个<strong>结构型指令</strong>，且每个宿主上只能由一个结构型指令。这里使用官方的示例，类似<code>NgIf</code>。<br><figure class="highlight js"><figcaption><span>自定义结构型指令</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Directive, Input, TemplateRef, ViewContainerRef &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="comment">//指令定义</span></div><div class="line">@Directive(&#123; <span class="attr">selector</span>: <span class="string">'[myUnless]'</span>&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">UnlessDirective</span></span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(</div><div class="line">    private templateRef: TemplateRef&lt;any&gt;,</div><div class="line">    private viewContainer: ViewContainerRef)&#123;&#125;</div><div class="line">  <span class="comment">//input参数定义</span></div><div class="line">  @Input() set myUnless(condition: boolean)&#123;</div><div class="line">    <span class="keyword">if</span>(condition)&#123;</div><div class="line">      <span class="keyword">this</span>.viewContainer.createEmbeddedView(<span class="keyword">this</span>.templateRef);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">      <span class="keyword">this</span>.viewContainer.clear();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>通过注入<code>TemplateRef</code>来获取<code>&lt;ng-template&gt;</code>的内容。</li>
+<li>通过注入<code>ViewContainerRef</code>来访问视图容器。</li>
+</ul>
+<p>然后将指令添加到的<code>@NgModule</code>的<code>declarations</code>中，然后在模板中使用指令：<br><figure class="highlight html"><figcaption><span>使用自定义指令</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> *<span class="attr">myUnless</span>=<span class="string">"true"</span>&gt;</span>Demo<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行结果后，可以通过修改<code>myUnless</code>的值来看到效果。</p>
+<p>到这里，关于自定义指令的初级介绍也就完成了，当然在自定义指令中必不可少的数据和事件交互，以及自定义指令中那些个自动注入的对象的作用等，我们会在后面一个一个的进行了解学习。</p>
+<h3 id="指令的自定义事件"><a href="#指令的自定义事件" class="headerlink" title="指令的自定义事件"></a><strong>指令的自定义事件</strong></h3><p>在指令中，我们可以通过<code>nativeElement</code>获取到原生元素，然后做各种操作，同时Angular2也提供了一个<code>@HostListener</code>(位于<code>@angular/core</code>包)来进行事件绑定，<br><figure class="highlight js"><figcaption><span>HostListener绑定事件</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@HostListener(<span class="string">'mouseenter'</span>) onMouseEnter()&#123;</div><div class="line">    <span class="comment">//事件逻辑</span></div><div class="line">    <span class="keyword">this</span>.render.setProperty(<span class="keyword">this</span>.el.nativeElement, <span class="string">"innerHTML"</span>, <span class="string">"鼠标进入了！"</span>);</div><div class="line">&#125;</div><div class="line">@HostListener(<span class="string">'mouseleave'</span>) onMouseLeave()&#123;</div><div class="line">    <span class="comment">//事件逻辑</span></div><div class="line">    <span class="keyword">this</span>.render.setProperty(<span class="keyword">this</span>.el.nativeElement, <span class="string">"innerHTML"</span>, <span class="string">"鼠标离开了！"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>将上段代码加入到我们开头写的<strong>属性型指令中</strong>，然后运行，鼠标移动到<strong>红色</strong>的<strong>Hi Directive!</strong>上就可以看到事件被触发了。</p>
+<h3 id="结构型指令的内幕"><a href="#结构型指令的内幕" class="headerlink" title="结构型指令的内幕"></a><strong>结构型指令的内幕</strong></h3><p>在结构型指令中，在使用的时候都会提到<code>*(星号)</code>，其实星号只是一个<strong>语法糖</strong>，经过Angular的处理最终都会编译成<code>ng-template</code>，可以结合官方文档的实例来分析下<code>*ngIf</code>的处理过程。</p>
+<figure class="highlight html"><figcaption><span>*ngIf</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> *<span class="attr">ngIf</span>=<span class="string">"true"</span>&gt;</span>Demo!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Angular会将<code>*ngIf</code>先解析为一个<code>template</code>属性，如下：<br><figure class="highlight html"><figcaption><span>ngIf-template-attr</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">template</span>=<span class="string">"ngIf true"</span>&gt;</span>Demo!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>星号会被解析为一个<code>template</code>属性，然后将<code>ngIf</code>移动到属性值中。然后会继续解析<code>template</code>属性为：<br><figure class="highlight html"><figcaption><span>ngIf-template</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ng-template</span> [<span class="attr">ngIf</span>] = <span class="string">"true"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>Demo!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ng-template</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>ngIf</code>成为了<code>ng-template</code>的一个属性，而宿主元素则成为了<code>ng-template</code>的内容。而最终的展示效果为：<br><figure class="highlight html"><figcaption><span>渲染结果</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--bindings=&#123;</span></div><div class="line">  "ng-reflect-ng-if": "true"</div><div class="line">&#125;--&gt;</div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">_ngcontent-c0</span>=<span class="string">""</span>&gt;</span>Demo!<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>&lt;ng-template&gt;</code>指令，是一个Angular元素，主要用来渲染HTML，只会以注释的方式来渲染。<br><code>&lt;ng-container&gt;</code>指令，可以作为一个宿主元素使用，由于一个元素只能添加一个<strong>结构型指令</strong>，所以在一些需要多个结构型指令配合的情况下，如果使用HTML元素作为宿主元素，可能将会受到css样式的影响，这种情况下就推荐使用<code>&lt;ng-container&gt;</code>元素，该元素并不会被添加到DOM中。</p>
+<p><strong> 参考链接 </strong></p>
+<ol>
+<li><a href="https://angular.cn/api/core/Renderer2" target="_blank" rel="external">Renderer2 API</a></li>
+<li><a href="https://angular.cn/api/core/HostListener" target="_blank" rel="external">HostListener API</a></li>
+</ol>
+ <!-- ### **关于指令的数据绑定** ###
+无论是在angular的哪个版本，或者其他的框架中，关于自定义的指令(或者组件等其他叫法)，想要实现封装，那么或多或少的要接触到数据的交互等。
+
+**数据的交互**主要是要将外部的数据传递到组件内部，然后会将组件内部的一些结果值传递到外部。在Angular1中，我们主要使用``$scope``的属性值来进行绑定，而在Angular2中则需要使用``Input``和``Output``进行绑定操作，这个我们在基础语法部分做过介绍，在这里完整的介绍下``@Input``的语法：
+<figure class="highlight js"><figcaption><span>@Input</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Input &#125; <span class="keyword">from</span> <span class="string">'@anguler/core'</span>;</div><div class="line">@Input(<span class="string">'别名'</span>) 属性名: 类型;</div></pre></td></tr></table></figure>
+<ul>
+<li>别名：可以定义在绑定时<code>[属性名]=&#39;值&#39;</code>具有意义，使用更有意义的名字。</li>
+</ul>
+<p>至于何时使用<code>@Input</code>呢？ 其实如果我们只是在组件内部的模板中使用组件的属性，则可以不使用<code>@Input</code>修饰，因为Angular默认模板是可信任的，而对于外部调用组件，或组件之间的互相调用，则需要添加<code>@Input</code>，主要是将修饰的组件属性设置为公共的。 –&gt;</p>
+-->
+      
+    </div>
+    <footer>
+      
+
+        
+          <div class="alignleft post-nav">
+            <em>上一篇: </em><a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+          </div>
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2017/08/17/20170817215600.html">
+                  http://chonger.org/2017/08/17/20170817215600.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/angularjs2/">angularjs2</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+    
+      <a class="addthis_button_sinaweibo_like"></a>
+    
+    
+      <a class="addthis_button_linkedin"></a>
+    
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+  <section id="comments">
+    <!-- ��˵���ۿ� start -->
+    <div class="ds-thread" data-thread-key="post-20170817215600" data-title="Angularjs2 指令" data-url="http://chonger.org/2017/08/17/20170817215600.html"></div>
+    <!-- ��˵���ۿ� end -->
+    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'chonger90'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- ��˵����JS���� end -->
+  </section>
+  
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>4</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>2</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/桔梗/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>7</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+      <li>
+        <a href="/2017/06/13/20170613172600.html">VS Code语言配置</a>
+      </li>
+    
+      <li>
+        <a href="/2017/05/21/20170521152700.html">android的入门知识扫盲</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/12/20170212222400.html">解决github博客不被百度蜘蛛采集的办法</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/10/20170210090400.html">AngularJs 自定义表单验证(依赖验证)</a>
+      </li>
+    
+      <li>
+        <a href="/2016/11/07/20161107000000.html">秋日随感</a>
+      </li>
+    
+      <li>
+        <a href="/2016/09/01/20160901141600.html">黄磊：中国很多父母的教育都是&quot;混蛋&quot;逻辑</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>

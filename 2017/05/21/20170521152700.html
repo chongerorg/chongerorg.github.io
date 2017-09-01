@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>android的入门知识扫盲 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
+  
+  
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,andorid,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="android的入门知识扫盲"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">花开花败，终成一曲流年，花开不败，倾尽一生爱恋。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2017-05-21T07:27:26.000Z"><a href="/2017/05/21/20170521152700.html">2017-05-21</a></time>
+      
+      
+  
+    <h1 class="title">android的入门知识扫盲</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>已经有很长时间没有去做过Android开发了，最近公司的一个android项目需要进行下整理，然后看过整个项目后觉得整个人都有点不太好了，加上知识的更新迭代，感觉自己所了解的知识已经跟不上android开发组了，所以趁着周末进行了一下恶补，鉴于朋友要求，特意整理了一下文档，供大家查阅 :)</p>
+<p>下面主要对一些基础的 <strong>术语</strong> 进行简单介绍，使大家能快速的了解一些东西。</p>
+<ul>
+<li><p><strong>SDK</strong>: 这个就不过多解释了，Software Development Kit，咱们做开发的应该都是清楚的。android开发，我们需要在开发机上安装相应的SDK环境。</p>
+</li>
+<li><p><strong>ADT</strong>: 由于我之前也是使用<strong>Eclipse</strong>学习Android的，所以ADT(Android Development Tools)是针对于Eclipse的插件。如果我们使用Eclipse作为主开发工具那么就需要安装插件。</p>
+<a id="more"></a></li>
+<li><p><strong>Android Studio</strong>: 这个工具还这没有使用过，好像是基于<strong>IntelliJ IDEA</strong>，我个人一般很少使用具有特定针对性的开发工具，想起来以前一个同事，开发机上各种特定的Eclipse安装了好多，每次我们看着都着急。目前Android的开发同事使用的是这个，据说很好使。</p>
+</li>
+<li><p><strong>IntelliJ IDEA</strong>: 我个人一般开发使用的是这个工具，主要使用这个和<strong>Eclipse</strong>。</p>
+</li>
+<li><p><strong>Gradle</strong>: 项目自动化构建工具，使用一种基于Groovy的特定领域语言(DSL)来声明项目设置，抛弃了基于XML的各种繁琐配置。感觉从 <strong>build.xml -&gt; pom.xml -&gt; build.gradle</strong> 有点让人应接不暇。如果有朋友感兴趣可以深挖APK的编译过程，来完成手动编译。我尝试使用maven和Gradle对Android项目进行编译，只能感叹，Gradle做的太方便了。</p>
+</li>
+<li><p><strong>jcenter</strong>: 据说是最大的构件仓库，是Maven Center的超集，由<strong>Bintray</strong>公司维护的Maven仓库，主要有很好的CDN来进行加速处理。目前<strong>Android Studio</strong>默认的仓库配置。</p>
+</li>
+<li><p><strong>Maven Center</strong>: 是由<strong>sonatype.org</strong>维护的Maven仓库，咱们做Java的同学应该是最清楚的了。</p>
+</li>
+</ul>
+<p>关于构件仓库这个的使用，由于公司当前的产品并没有进行单独模块的拆分，所有的项目模块都是在一个Android项目里面，而且Class也并没有按照功能模块进行组件封装、拆分，有点类似最早用C#做Win32程序，一个Form中包含了所有的这个界面逻辑，结果修改维护大家可想而知，所以按照我们的通常的开发方式，按照组件化开发，以达到代码的合理复用性。拆分出来的单个组件需要独立打包、管理，以供其他同学或项目使用，由于在Java的项目开发中，维护了一套Nexus系统，所以关于Android的组件构件仓库，还是想选用Nexus来进行打包上传。</p>
+<h3 id="关于aar的一些介绍"><a href="#关于aar的一些介绍" class="headerlink" title="关于aar的一些介绍"></a>关于aar的一些介绍</h3><p>aar全名为Android Archive Library，通过名称可以简单的理解下，就是Android提供的类库，类似我们常见的DLL、Jar等。Android不是用Java语言开发的么？打包怎么也应该是Jar，怎么是aar呢？ 这个其实就是要说下这两个的区别了。</p>
+<ul>
+<li><strong>jar</strong>: jar是我们在java项目开发中常使用的一种组件包，以ZIP文件为基础，添加了一些自己的文件说明，然后将.java源码文件编译为.class后进行打包，可以在别的项目中进行引用使用。</li>
+<li><strong>aar</strong>: android基于ZIP提供的一种扩展，丰富了jar的文件内容格式，因为我们在android的开发中，一些功能并不是纯的java代码，可能还会有一些图片、布局文件等其他资源等需要一起发布。所以Android就提供了可以将一个Andorid项目所有的资源打包为一个.aar文件，可以被别的项目来进行引用使用。<br><img src="/2017/05/21/20170521152700/aar-file-format.png" alt="aar File Format"></li>
+</ul>
+<p>举个小栗子，比如轮播图功能，我们如果想把轮播图的逻辑抽离为一个单独的模块，然后在以后别的项目或者别的模块中想直接进行使用，那么就可以考虑将轮播图的相关代码、资源等打包为一个.aar文件。</p>
+<p>在项目中使用aar时，需要注意资源的覆盖问题，所以在定义资源时，要添加上模块标识进行逻辑区分。</p>
+<h3 id="apk项目与aar项目的差异"><a href="#apk项目与aar项目的差异" class="headerlink" title="apk项目与aar项目的差异"></a>apk项目与aar项目的差异</h3><p>首先，生成的文件肯定是不一样的，虽然都是相同的资源数据。因为使用场景不一样，所以后缀也是不一样的。</p>
+<p>其次，在项目的属性中，好像是aar项目定义为: <code>android.library=true</code>，在Gradle中定义为: <code>apply plugin: &#39;com.android.library&#39;</code>，apk项目在Gradle中定义为: <code>apply plugin: &#39;com.android.application&#39;</code>。所以我们可以通过修改该属性来进行项目定义。备注：<code>library</code>项目中Gradle是没有<code>applicationId</code>值的。</p>
+<h3 id="使用Gradle来构建Android项目的一些说明"><a href="#使用Gradle来构建Android项目的一些说明" class="headerlink" title="使用Gradle来构建Android项目的一些说明"></a>使用Gradle来构建Android项目的一些说明</h3><p>当我们使用工具创建一个Gradle项目后，将会获得如下目录，我们主要关注红框的两个<code>build.gradle</code>文件：<br><img src="/2017/05/21/20170521152700/gradle-build-file.png" alt="android project"></p>
+<p><code>build.gradle</code>文件在不同层级的文件夹中，也就具有了继承上层配置的关系。比如图中<code>app/build.gradle</code> 就可以继承 <code>build.gradle</code>的一些配置项。</p>
+<p><img src="/2017/05/21/20170521152700/root-build.gradle.png" alt="build.gradle"></p>
+<p>同学们使用过maven，应该对于这种配置项的内容，一眼就能推测出来是做什么用的了，比如：</p>
+<ol>
+<li><p><strong>repositories</strong>: 是依赖仓库的配置，其中的<code>jcenter()</code>就是指我们前面<strong>定义</strong>中说的jcenter仓库。可以通过<code>mavenCentral()</code>、<code>mavenLocal()</code>定义maven的仓库信息。还可以通过<code>maven { url &#39;xxxx&#39;}</code>定义自己私有的仓库地址。</p>
+</li>
+<li><p><strong>dependencies</strong>: 是依赖组件的配置，可以使用<code>compile groupID:artifactId:version@ext</code>、<code>compile group: &#39;&#39;, module: &#39;&#39;, version: &#39;&#39;</code>来进行引用。也可以使用<code>compile fileTree(dir: &#39;&#39;, exclude: [&#39;xxx-*.jar&#39;], include: &#39;*.jar&#39;)</code>进行目录文件引用。使用<code>compile files(&#39;xxx.jar&#39;)</code>进行jar文件引用。也可以使用<code>compile project(path: &#39;:xxx&#39;)</code>进行项目引用。 或者使用<code>compile name:&#39;xxxx&#39;, ext: &#39;aar&#39;</code>来使用。或者使用<code>classpath &#39;&#39;</code>来进行指定。</p>
+</li>
+<li><p><strong>allprojects</strong>: 这个就是标明，所有的项目公用的配置信息。</p>
+</li>
+</ol>
+<p><img src="/2017/05/21/20170521152700/app-build.gradle.png" alt="build.gradle"></p>
+<ol>
+<li><p><strong>apply plugin: ‘xx’</strong>: 指定使用的插件。<code>com.android.application</code>表示是个<code>.apk</code>的项目，如果是<code>com.android.library</code>表示输出为<code>.aar</code>。</p>
+</li>
+<li><p><strong>android { }</strong>: 是android项目的一些配置。</p>
+</li>
+</ol>
+<h3 id="Gradle-版本升级的问题"><a href="#Gradle-版本升级的问题" class="headerlink" title="Gradle 版本升级的问题"></a>Gradle 版本升级的问题</h3><p>由于我个人使用的IDEA版本较低，所以在自动生成的Android项目中使用的Gradle版本较低，就想着给升下级，结果出现了一些意料之中的问题。</p>
+<ul>
+<li><p><strong>build.gradle中com.android.tools.build:gradle的版本问题</strong>:<br>  我们可以从官网<a href="https://developer.android.com/studio/releases/gradle-plugin.html#updating-gradle" target="_blank" rel="external">Android Plugin for Gradle Release Notes</a>看到对应的关系，如下图<br>  <img src="/2017/05/21/20170521152700/update-gradle.png" alt="gradle插件对应关系"><br>  修改完后要记得配置IDE的Gradle版本为相应的，也要配置环境变量<code>GRADLE_HOME=xxx</code>。</p>
+</li>
+<li><p><strong>在2.2版本编译正常，升级到3.5之后编译提示Java Home问题，或者 Java.exe问题</strong>：<br>  我出现这个问题的原因是，我使用的是32位方式打开的IDEA，JAVA_HOME是64位的JDK，结果就出现这个问题，使用64位方式打开一切OK，可以正常编译。<br>  <img src="/2017/05/21/20170521152700/idea-bin.png" alt="选择64位打开IDEA"></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+
+        
+          <div class="alignleft post-nav">
+            <em>上一篇: </em><a href="/2017/06/13/20170613172600.html">VS Code语言配置</a>
+          </div>
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2017/02/12/20170212222400.html">解决github博客不被百度蜘蛛采集的办法</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2017/05/21/20170521152700.html">
+                  http://chonger.org/2017/05/21/20170521152700.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/android/">android</a>
+  </div>
+
+        
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+    
+    
+      <a class="addthis_button_sinaweibo_like"></a>
+    
+    
+      <a class="addthis_button_linkedin"></a>
+    
+    
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+  <section id="comments">
+    <!-- ��˵���ۿ� start -->
+    <div class="ds-thread" data-thread-key="post-20170521152700" data-title="android的入门知识扫盲" data-url="http://chonger.org/2017/05/21/20170521152700.html"></div>
+    <!-- ��˵���ۿ� end -->
+    <!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'chonger90'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- ��˵����JS���� end -->
+  </section>
+  
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>4</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>2</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/桔梗/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>7</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+      <li>
+        <a href="/2017/06/13/20170613172600.html">VS Code语言配置</a>
+      </li>
+    
+      <li>
+        <a href="/2017/05/21/20170521152700.html">android的入门知识扫盲</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/12/20170212222400.html">解决github博客不被百度蜘蛛采集的办法</a>
+      </li>
+    
+      <li>
+        <a href="/2017/02/10/20170210090400.html">AngularJs 自定义表单验证(依赖验证)</a>
+      </li>
+    
+      <li>
+        <a href="/2016/11/07/20161107000000.html">秋日随感</a>
+      </li>
+    
+      <li>
+        <a href="/2016/09/01/20160901141600.html">黄磊：中国很多父母的教育都是&quot;混蛋&quot;逻辑</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2017 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>
