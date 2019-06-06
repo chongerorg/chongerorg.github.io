@@ -1,0 +1,452 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="刚开始从``期望的一个小工具使用形态``来完成一个``简易版的系统设计``，并简单的阐述了``系统各模块功能以及交互流程``，然后到``项目的组织搭建``。 在开发中又简单的聊了下``前后端分离的跨域问题``，以及``前端在多环境中的打包``。 最后，又介绍了``在nodejs后端项目使用webpack打包``、``nodejs后端项目的多环境问题``以及``使用webpack完成nodejs后端项目的开发模式服务``。">
+  
+  <meta name="keywords" content="前后端分离、全栈、webpack、打包、nodejs后端、webpack压缩、前端、系统设计、vue、vuex">
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,android,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">腐草流萤之火，不知红日之光。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2019-06-03T15:19:21.000Z"><a href="/2019/06/03/20190603231900.html">2019-06-03</a></time>
+      
+      
+  
+    <h1 class="title">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><strong>webpack</strong>这个工具，已经是各大主流框架、项目毕不可少的了，也确实大大方便、简化了开发人员的日常工作。在<code>vue-cli</code>、<code>angular-cli</code>、<code>create-react-app</code>等等一些<strong>脚手架</strong>中也会常常遇到。</p>
+<p>使用<strong>webpack</strong>来构建、打包前端项目，尤其是在<strong>SPA(single-page application)</strong>的场景，已经成为了主流，其中附带的<code>webpack-dev-server</code>也是非常强大的功能。</p>
+<p>但是在nodejs后端项目的构建、打包方面，我也看到了有的社区中的一些讨论，大多数持有的态度为<strong>是不需要的</strong>。其实从我个人的角度来看，我觉得是<strong>非常必要的</strong>，我认同大家所说的<strong>只是脚本项目</strong>、<strong>本来基于nodejs就都是支持的，没必要打包</strong>，我认为打包是必要的，主要指的是<strong>交付</strong>、<strong>部署</strong>方面。</p>
+<p>如果只是站在前端的角度看待问题，<strong>webpack</strong>为项目提供了语法降级兼容、CSS预编译、JS合并压缩、公共代码抽离、图片转码等等，也确实在浏览器兼容性、网页优化等方面拥有非常强大、完善的插件。</p>
+<p>在nodejs的后端项目上，确实是没有这么多事儿的。只有脚本，聚焦的也就是脚本语法转换、打包这些简单的功能，就类似于我们在其他语言开发完模块功能后，都是会打包为<strong>动态链接库</strong>一样，来进行发布、部署。</p>
+<p>具体需不需要在nodejs的后端项目中使用webpack，仁者见仁智者见智，更多的根据实际场景来考虑考虑，也不能一味的追求。</p>
+<p>刚好最近为公司产品做了个<strong>B/S</strong>的小工具，也将自己的一些思考、做法，尽量详细的整理出来，供大家以作参考。<br><a id="more"></a></p>
+<h3 id="0x00-从应用场景倒推设计"><a href="#0x00-从应用场景倒推设计" class="headerlink" title="0x00 从应用场景倒推设计"></a><strong>0x00 从应用场景倒推设计</strong></h3><p>个人的看法，在开始一个小项目的时候，不但要关注功能与需求，而且还要考虑好最终的部署、应用场景，尤其是小工具之类的。<strong>技术实现业务功能的方案非常多，我们往往就是要挑出比较契合的方案</strong>。比如：在线使用还是本地使用、移动端还是PC端、需不需要跨平台等等。</p>
+<p>就比如这次想要做的小工具，只是一个工具应用，但是在部署应用上，希望的是能做到低配置、低资源，不需要很重量级的，最好是一个绿色版程序包，<strong>随起即用，随删即卸</strong>。</p>
+<p>最后暂定的部署、运行目录为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/bin</div><div class="line">/node_modules</div><div class="line">/node</div><div class="line">/app.js</div><div class="line">/www</div><div class="line">/package.json</div></pre></td></tr></table></figure></p>
+<ul>
+<li><code>/bin</code> 基础的应用脚本，启停服务</li>
+<li><code>/node</code> nodejs运行环境，如果系统自带则可以移除</li>
+<li><code>/node_modules</code> 应用依赖的模块</li>
+<li><code>/www</code> web静态资源目录，放置前端静态资源</li>
+<li><code>/app.js</code> 主程序文件</li>
+<li><code>/package.json</code> nodejs项目描述文件</li>
+</ul>
+<p>由于是<strong>B/S</strong>的方式，前端考虑使用<code>Vue</code>，所以页面相关的事儿都交由浏览器完成，这样前端项目的交付物就是一堆静态的资源文件，这也完全符合当前基于<code>vue-cli</code>开发的结果物。</p>
+<p>后端的话徘徊于<code>Go</code>和<code>nodejs</code>，其实我更喜欢<code>Go</code>，尤其是交叉编译，之前也有基于<code>Go</code>做过简单的<strong>B/S</strong>工具，非常的舒服，以后找时间分享出来。这次，考虑到时间紧迫，就暂定了<code>nodejs</code>。主要是会与<code>mysql</code>、<code>redis</code>、<code>dubbo</code>等服务交互，相对熟悉一些。</p>
+<p>这样的话，项目的整体结构为：<br><img src="/2019/06/03/20190603231900/fw_tier.png" alt="项目整体结构图"></p>
+<p>很普通的一个通用结构，在其他的语言框架中也都是通用的，有经验的开发人员，一眼就能明白。</p>
+<p>基于这样的结构，为了方便理解，可以从一个简单的数据流程来看一下，可以帮助大家理解每个组件所处的位置以及负责的事儿。<br><img src="/2019/06/03/20190603231900/fw_data_flow.png" alt="数据流程以及各组件职责"></p>
+<p>在项目的结构上，虽然都是基于nodejs，又由于是前后端分离开发，为了项目的整洁且互不干涉，也可以由前后端人员分别独立开发，所以就简单的拆分为两个项目。考虑到需要统一的编译构建，所以再添加一个主项目，负责管理构建子项目，生成可以直接交付的部署包。</p>
+<p>所以，从git的项目目录结构看，是这样的：<br><img src="/2019/06/03/20190603231900/git_folder.png" alt="git项目目录结构图"></p>
+<p>基于<code>vue</code>和<code>nodejs</code>的项目开发，没有什么很大的难度，所以在业务功能开发方面就不去深入介绍。比如一个<strong>字典功能</strong>的代码片段：<br><img src="/2019/06/03/20190603231900/code_fragment_vuex.png" alt="Vuex"><br><img src="/2019/06/03/20190603231900/code_fragment_controller.png" alt="Controller"><br><img src="/2019/06/03/20190603231900/code_fragment_service.png" alt="Service"></p>
+<h3 id="0x01-webpack的多环境需求"><a href="#0x01-webpack的多环境需求" class="headerlink" title="0x01 webpack的多环境需求"></a><strong>0x01 webpack的多环境需求</strong></h3><p>本次主要关注点在<strong>webpack</strong>，所以，接下来主要讨论的一个就是，如何<strong>开发模式</strong>、<strong>生产模式</strong>的多环境运行与打包。</p>
+<p>为什么要考虑多环境？可以先从这几方面思考下</p>
+<ol>
+<li>项目在<code>开发环境</code>、<code>测试环境</code>、<code>生产环境</code>等，及多端中，相同的变量，需要定义为不同的属性值(非配置文件方式，直接替换编入代码中)。<br>比如有代码<code>const name = &#39;&#39;</code><br>在<code>开发模式</code>生成结果为：<code>const name = &#39;/api&#39;</code><br>在<code>生成模式</code>生成结果为：<code>const name = &#39;&#39;</code></li>
+<li>后端服务提供的接口格式为<code>/:module/:action</code>格式，<code>module</code>名字随意定义。<br>从<code>生产环境</code>考虑，后端是不需要<code>CORS(跨域资源共享)</code>方式来处理跨域的。<br>从<code>开发环境</code>考虑，由于是分离式的，如果直接请求后端接口，则需要解决跨域问题。<br>所以，<code>开发环境</code>中需要在<strong>前端</strong>方来解决跨域，可以使用<strong>webpack</strong>来完成请求代理。这个时候如何使用统一的代理规则，而不是使用每个<code>module</code>名称配置规则？</li>
+<li>后端服务在开发调试阶段，配置项使用开发环境，部署时需要使用生产环境的配置信息，且不想使用独立的配置文件，希望能压缩为一个可执行脚本。</li>
+</ol>
+<p>其实，都不难，就跟<code>maven</code>中<code>resource</code>的<code>filter</code>功能一样，在编译时对配置文件中的属性进行替换。</p>
+<p><code>javascript</code>脚本语言也一样，并没有所谓的编译过程，都是纯文本的，只能看做是<code>源代码</code>的预处理、合并、混淆、压缩，也正是在这些操作的过程中完成属性的替换。</p>
+<p><img src="/2019/06/03/20190603231900/webpack.png" alt="Webpack"></p>
+<p>接下来就主要从示例来看下如何使用<code>webpack</code>来实现多环境的配置与应用</p>
+<h3 id="0x02-前端项目中的跨域和多环境问题"><a href="#0x02-前端项目中的跨域和多环境问题" class="headerlink" title="0x02 前端项目中的跨域和多环境问题"></a><strong>0x02 前端项目中的跨域和多环境问题</strong></h3><p>在基于<code>vue-cli</code>的开发模式中，已经很好的配置了<code>webpack</code>来支持<code>开发环境</code>和<code>生产环境</code>。</p>
+<p>分别执行<code>npm run serve</code>和<code>npm run build</code>，将会使用不同的混淆压缩方式。</p>
+<p>我之所以想在前端来实现多环境的属性替换，是想做这么一个事儿。</p>
+<p>在未分离之前开发模式是这样的，我们常常会基于一个<code>web服务</code>来进行开发。比如使用<code>jsp</code>、<code>aspx</code>、<code>php</code>等来开发页面，然后在同一个项目中开发接口服务。<br>最终的部署方式也都是一个包含了接口代码和页面静态资源的部署包，而我也想在这个小工具中使用这样的方式，我们可以在文章开头设想的运行目录可以看出，就是同时包含了接口服务和页面静态资源。<br>整体的运行模式可以这样来描述。<br><img src="/2019/06/03/20190603231900/fw_production.png" alt="生成环境运行方式"></p>
+<p>一个独立的程序包，在本地<code>3000</code>端口提供<code>http</code>服务，包含<code>静态资源文件模块</code>和<code>业务接口模块</code>，这样是<strong>B/S</strong>结构的基础需求。</p>
+<ul>
+<li><code>静态资源模块</code>也就是前端静态资源，这些资源主要是提供给浏览器来进行页面的渲染、展示，是提供给用户操作的界面。</li>
+<li><code>业务接口模块</code>就是俗称的后端逻辑，主要对浏览器端的一些请求做出响应处理。比如动态页面的渲染、数据接口的请求等等。</li>
+</ul>
+<p>从上图中我们可以整理出这样的信息：</p>
+<ol>
+<li><code>浏览器</code>发起<code>GET</code>请求，地址为：<code>http://chonger.org:3000/index.html</code></li>
+<li><code>服务端</code>收到请求，获取相对路径<code>/index.html</code>，优先查找静态资源(static目录中)是否有配合，找到后，使用文件接口读取静态文件内容，响应给<code>浏览器</code></li>
+<li><p><code>浏览器</code>执行js逻辑，遇到这样一段代码，发起一个<code>Ajax</code>请求，地址为：<code>/dict/all</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">this.$ajax.get(&apos;/dict/all&apos;)</div></pre></td></tr></table></figure>
+<p>而<code>浏览器</code>在最终发起请求的时候，会加上当前的访问域，补全请求地址为：<code>http://chonger.org:3000/dict/all</code></p>
+</li>
+<li><code>服务端</code>收到请求后，同样的先匹配静态资源，匹配不上后，再匹配是否有相应注册的路由，匹配成功后，则由对应的业务逻辑完成处理，返回响应。  </li>
+</ol>
+<p>上面的这些东西，对于大家应该都是老生常谈了，为什么还要不厌其烦的大费篇幅呢？一个主要是为了让还未能掌握的朋友能借鉴学习，另一个就是为了和后面的内容形成对比。</p>
+<p>接着，咱们来看下，在前后端分离方式中，基于<code>webpack-dev-server</code>的开发环境中，变成了什么样子了。先看图<br><img src="/2019/06/03/20190603231900/fw_development.png" alt="开发环境运行方式"></p>
+<p>前后端分离，形如字义，被拆分为两个独立的服务，一个依旧是在<code>3000</code>端口坚守的后端服务，另一个就是前端项目的服务了，图中配置的端口为<code>8080</code>。</p>
+<p>分别启动两个服务，后端服务与前面描述的方式一致，前端服务运行后，会先根据<code>webpack</code>的配置，扫描加载前端的“源码”文件，合并打包为静态资源。同时会监控前端“源码”目录的文件变更，如果发现有文件被修改，则触发合并打包。</p>
+<p>同样的，从图中整理信息如下：</p>
+<ol>
+<li><code>浏览器</code>发起<code>GET</code>请求，地址为：<code>http://localhost:8080/index.html</code>，访问的是前端开发服务(Webpack Dev Server)</li>
+<li><code>前端服务</code>收到请求，获取相对路径<code>/index.html</code>，会在启动时合并打包的静态资源中匹配，找到后，读取文件内容，响应给<code>浏览器</code></li>
+<li><p><code>浏览器</code>执行js逻辑，遇到这样一段代码，发起一个<code>Ajax</code>请求，地址为：<code>/dict/all</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">this.$ajax.get(&apos;/dict/all&apos;)</div></pre></td></tr></table></figure>
+<p>而<code>浏览器</code>在最终发起请求的时候，会加上当前的访问域，补全请求地址为：<code>http://localhost:8080/dict/all</code></p>
+</li>
+<li><code>前端服务</code>收到请求后，匹配不到静态资源，转而匹配路由，同样匹配不到，响应<code>404</code></li>
+</ol>
+<p>先暂停流程，来看一下前后端分离中最常遇到的这个<code>404</code>问题，当前这种情况下，解决方式不少，先简单的看看</p>
+<p><strong>方案一</strong>：修改ajax请求，直接访问后端服务<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改代码逻辑</span></div><div class="line"><span class="keyword">this</span>.$ajax.get(<span class="string">'http://localhost:3000/dict/all'</span>)</div></pre></td></tr></table></figure></p>
+<ul>
+<li><code>浏览器</code>在最终发起请求时，判断将要请求的地址域和当前的访问域不同，触发跨域请求问题。对应的解决办法就是在<strong>后端</strong>服务开启<code>CORS</code>来处理。从文章最前面的介绍中已经聊到过，最终的运行方式，并不会存在跨域问题，所以，实际场景并不会跨域，而在后端开启跨域逻辑处理，可以认定为是多余、且不安全的。</li>
+</ul>
+<p> 在方案一中，直接将后端接口地址这样硬编码是不可取的，所以，通常会使用全局的变量来配合<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//全局的后端服务接口地址</span></div><div class="line"><span class="keyword">const</span> API_URL = <span class="string">'http://localhost:3000'</span></div><div class="line"><span class="comment">//修改代码逻辑</span></div><div class="line"><span class="keyword">this</span>.$ajax.get(API_URL + <span class="string">'/dict/all'</span>)</div></pre></td></tr></table></figure></p>
+<p>这样来编码，实现功能是ok的，但我一般不会建议采用这种方式，因为这种方式，还需要让前端开发人员在调用接口时，得不停想着进行拼接。所以，一般会改为这样，示意如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用代理模式来处理ajax请求，可以进行地址、参数转换和响应数据初步处理</span></div><div class="line"><span class="keyword">this</span>.$ajax = &#123;</div><div class="line">  <span class="attr">API_URL</span>: <span class="string">'http://localhost:3000'</span>,</div><div class="line">  <span class="comment">//get请求</span></div><div class="line">  get: <span class="function"><span class="keyword">function</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">    axios.get(<span class="keyword">this</span>.API_URL + url)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//修改调用代码逻辑，最终回被转换为 http://localhost:3000/dict/all</span></div><div class="line"><span class="comment">//对于业务开发人员，仅需要关心接口文档中的地址的path部分，对于开发，屏蔽了一些不重要的信息干扰</span></div><div class="line"><span class="keyword">this</span>.$ajax.get(<span class="string">'/dict/all'</span>)</div></pre></td></tr></table></figure></p>
+<p><strong>方案二</strong>：使用代理，反向代理后端服务到当前访问域<br>如果我们如果想让上面的<strong>第4步</strong>不出现<code>404</code>，那么就可以在<code>webpack-dev-server</code>中配置代理规则<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//将开发服务接收到的/dict开头请求，转发到http://localhost:3000服务上</span></div><div class="line">devServer: &#123;</div><div class="line">  <span class="attr">proxy</span>: &#123;</div><div class="line">    <span class="string">'/dict'</span>: &#123;</div><div class="line">      <span class="attr">target</span>: <span class="string">'http://localhost:3000'</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样，我们就可以继续来看下处理流程</p>
+<p>4. <code>前端服务</code>收到请求后，匹配不到静态资源，转而匹配路由，这时候匹配到代理规则<code>/dict</code>，然后生成访问地址：<code>http://localhost:3000/dict/all</code>，由<code>前端服务</code>直接发起请求<br>5. <code>后端服务</code>收到请求后，同样的先匹配静态资源，匹配不上后，再匹配是否有相应注册的路由，匹配成功后，则由对应的业务逻辑完成处理，返回响应。<br>6. <code>前端服务</code>收到<code>后端服务</code>的响应后，代理请求完成，然后将接受到的响应内容，直接响应给<code>浏览器</code></p>
+<p>使用代理的方式，对于浏览器端是感知不到的，所有的请求都在当前访问域中，只是一些请求最终会被打到后端服务上。</p>
+<ul>
+<li>这样的方式，关注点就在<code>代理规则</code>的配置上了，前端开发人员可就得盯着这里了，随着后端接口越来越多，比如<code>/rule/search</code>、<code>/user/search</code>、<code>/order/:id</code>等等，就得配置多个代理规则，这样也是行的通的，只是，总感觉不是有点多余。</li>
+<li><p>解决N多个代理规则配置问题，第一个是可以让后端统一下接口规则，比如都写为<code>/api/rule/search</code>、<code>/api/user/search</code>、<code>/api/order/:id</code>等，这样前端就只需要配置一个统一的代理规则</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改请求前缀</span></div><div class="line"><span class="keyword">this</span>.$ajax = &#123;</div><div class="line">  <span class="attr">API_URL</span>: <span class="string">'/api'</span>,</div><div class="line">  <span class="comment">//get请求</span></div><div class="line">  get: <span class="function"><span class="keyword">function</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">    axios.get(<span class="keyword">this</span>.API_URL + url)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//调用逻辑</span></div><div class="line"><span class="keyword">this</span>.$ajax.get(<span class="string">'/dict/all'</span>)</div><div class="line"><span class="comment">//配置代理</span></div><div class="line">proxy: &#123;</div><div class="line">  <span class="string">'/api'</span>: &#123;</div><div class="line">    <span class="attr">target</span>: <span class="string">'http://localhost:3000'</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种方式也能解决问题，前端同学简单省事儿了，后端同学郁闷了，写接口注册到路由的时候为什么非要加上个没意义的<code>/api</code>，就为了区分静态资源和接口逻辑么，感觉也是有点多余。曾经说好的不分批次，结果你却悄悄躲到了<code>/api</code>后面。对于后端同学的地址就会变成这样</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http:<span class="comment">//localhost:3000/index.html</span></div><div class="line">http:<span class="comment">//localhost:3000/js/index.js</span></div><div class="line">http:<span class="comment">//localhost:3000/api/dict/all</span></div><div class="line">http:<span class="comment">//localhost:3000/api/rule/search</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>所以在统一代理规则上，还可以这样做，后端同学还是使用默认的方式，定义接口为<code>/rule/search</code>、<code>/user/search</code>、<code>/order/:id</code>，修改前端的代理配置为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改请求前缀</span></div><div class="line"><span class="keyword">this</span>.$ajax = &#123;</div><div class="line">  <span class="attr">API_URL</span>: <span class="string">'/api'</span>,</div><div class="line">  <span class="comment">//get请求</span></div><div class="line">  get: <span class="function"><span class="keyword">function</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">    axios.get(<span class="keyword">this</span>.API_URL + url)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//调用逻辑</span></div><div class="line"><span class="keyword">this</span>.$ajax.get(<span class="string">'/dict/all'</span>)</div><div class="line"><span class="comment">//配置代理</span></div><div class="line">proxy: &#123;</div><div class="line">  <span class="string">'/api'</span>: &#123;</div><div class="line">    <span class="attr">target</span>: <span class="string">'http://localhost:3000'</span>,</div><div class="line">    <span class="comment">//重写路径，抹掉/api， </span></div><div class="line">    <span class="comment">//e.g. http://localhost:8080/api/dict/all =&gt; http://localhost:3000/dict/all</span></div><div class="line">    pathRewrite: &#123;</div><div class="line">      <span class="string">"^/api"</span>: <span class="string">""</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这样，前后端都可以按照自己舒服的方式进行开发了。</p>
+<p>开发模式下，一切都会相安无事，一旦到了集成打包发布后，运行起来就会出问题了。因为实际运行中，并没有了代理服务，所以前端ajax的请求就会是<code>http://localhost:3000/api/dict/all</code>。这个时候，就需要在发布打包的时候修改逻辑为<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改请求前缀</span></div><div class="line"><span class="keyword">this</span>.$ajax = &#123;</div><div class="line">  <span class="comment">//开发模式</span></div><div class="line">  <span class="comment">//API_URL: '/api',</span></div><div class="line">  <span class="comment">//发布模式</span></div><div class="line">  API_URL: <span class="string">''</span>,</div><div class="line">  <span class="comment">//get请求</span></div><div class="line">  get: <span class="function"><span class="keyword">function</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">    axios.get(<span class="keyword">this</span>.API_URL + url)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样，就需要前端同学打包的时候，来回的切换这里的代码，一个不留神，就会出错。这种重复性的替换工作，也实时的会让打包的时候强迫关注这里，更期望的方式是类似于<code>mvn package -Pxx</code>这样的方式来实现自动切换。</p>
+<p>也就是核心的主角<code>DefinePlugin</code>，</p>
+<blockquote>
+<p><code>DefinePlugin</code>允许创建一个在<strong>编译</strong>时可以配置的全局常量。这可能会对开发模式和生产模式的构建允许不同的行为非常有用。如果在开发构建中，而不在发布构建中执行日志记录，则可以使用全局常量来决定是否记录日志。这就是<code>DefinePlugin</code>的用处，设置它，就可以忘记开发环境和生产环境构建的规则。<br>Link: <a href="https://webpack.docschina.org/plugins/define-plugin/" target="_blank" rel="external">https://webpack.docschina.org/plugins/define-plugin/</a></p>
+</blockquote>
+<p>在<code>vue-cli</code>中的<code>vue-cli-service</code>，已经对<code>DefinePlugin</code>进行了封装，可以通过<code>mode</code>和<code>.env[.mode]</code>配合来实现。具体的资料可以参考官方文档：<a href="https://cli.vuejs.org/zh/guide/mode-and-env.html#%E5%9C%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BE%A7%E4%BB%A3%E7%A0%81%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F" target="_blank" rel="external">在客户端侧代码中使用环境变量</a></p>
+<p>前端项目中，添加环境变量配置<br><figure class="highlight javascript"><figcaption><span>.env.development</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">VUE_APP_customPrefix=<span class="regexp">/api</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><figcaption><span>.env.production</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">VUE_APP_customPrefix=</div></pre></td></tr></table></figure>
+<p>同时修改项目中使用的地方，示意如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改请求前缀</span></div><div class="line"><span class="keyword">this</span>.$ajax = &#123;</div><div class="line">  <span class="attr">API_URL</span>: process.env.VUE_APP_customPrefix,</div><div class="line">  <span class="comment">//get请求</span></div><div class="line">  get: <span class="function"><span class="keyword">function</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">    axios.get(<span class="keyword">this</span>.API_URL + url)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样，就可以彻底放手不用再去关注不同环境需要变更的地方了，只需要关注业务，完成开发，然后执行<code>npm run serve</code>或者<code>npm run build</code>就ok了。</p>
+<p>在开发模式生成的包中，请求的地址就是：<code>http://localhost:8080/api/dict/all</code><br>发布包中，请求的地址就是：<code>http://chonger.org/dict/all</code></p>
+<h3 id="0x03-后端项目中的多环境问题"><a href="#0x03-后端项目中的多环境问题" class="headerlink" title="0x03 后端项目中的多环境问题"></a><strong>0x03 后端项目中的多环境问题</strong></h3><p>后端项目考虑多环境问题，不像前端那样必须得替换，因为前端毕竟只是纯纯的静态资源。而后端常用的做法就是<code>添加启动参数</code>或者<code>使用配置文件</code></p>
+<ul>
+<li><code>添加启动参数</code>设置些简单的数据类型还ok，复杂或量大的情况下，一般都是<code>使用配置文件</code>，然后在启动参数中指定使用的配置文件。类似于<code>java -jar spring-boot.jar --spring.profiles.active=prod</code>，然后就会加载<code>application-prod.yml</code>配置文件。这种方式在内部使用是没有问题的，如果是作为小工具类的，提供的运行文件中，往往就会暴露其他环境的配置信息。</li>
+<li><code>使用配置文件</code>的另一种方式就是资源文件替换，在项目中会按照不同的环境名称设立文件夹，然后分别放不同的环境配置文件。打包的时候通过<code>resource</code>指定配置目录。这种方式也是ok的，只是在小工具的范畴内，更希望的就类似一个<code>.exe</code>文件，直接双击使用，也不用附带什么配置文件之类的。</li>
+</ul>
+<p>在nodejs后端项目中，添加<code>webpack</code>的相关依赖<br><figure class="highlight javascript"><figcaption><span>/package.json</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">"devDependencies"</span>: &#123;</div><div class="line">  <span class="string">"clean-webpack-plugin"</span>: <span class="string">"^3.0.0"</span>,</div><div class="line">  <span class="string">"copy-webpack-plugin"</span>: <span class="string">"^5.0.3"</span>,</div><div class="line">  <span class="string">"webpack"</span>: <span class="string">"^4.32.2"</span>,</div><div class="line">  <span class="string">"webpack-cli"</span>: <span class="string">"^3.3.2"</span>,</div><div class="line">  <span class="string">"webpack-merge"</span>: <span class="string">"^4.2.1"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>创建一个<code>build</code>目录，来放置跟构建相关的配置，由于是要考虑多环境，所以按照<code>webpack.config.js</code>、<code>webpack.dev.js</code>、<code>webpack.test.js</code>等，来拆分配置。</p>
+<ul>
+<li><code>webpack.config.js</code>存放公共的配置信息</li>
+<li><code>webpack.dev.js</code>、<code>webpack.test.js</code>分别存放不同环境的配置信息</li>
+</ul>
+<p>公共的<code>webpack</code>配置信息如下<br><figure class="highlight javascript"><figcaption><span>/build/webpack.config.js</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>)</div><div class="line"><span class="keyword">const</span> CopyPlugin = <span class="built_in">require</span>(<span class="string">'copy-webpack-plugin'</span>)</div><div class="line"> </div><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line"> <span class="attr">entry</span>: &#123;</div><div class="line">    <span class="attr">app</span>: <span class="string">'./src/main.js'</span></div><div class="line">  &#125;,</div><div class="line">  <span class="attr">target</span>: <span class="string">'node'</span>,</div><div class="line">  <span class="attr">output</span>: &#123;</div><div class="line">    <span class="attr">filename</span>: <span class="string">"[name].js"</span>,</div><div class="line">    <span class="comment">//输出到主项目目录</span></div><div class="line">    path: path.resolve(process.cwd(), <span class="string">"../dist"</span>)</div><div class="line">  &#125;,</div><div class="line">  <span class="comment">//排除项目依赖，不进行打包，由运行时安装提供</span></div><div class="line">  externals: externals(),</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="comment">//附带项目描述文件，主要进行依赖安装</span></div><div class="line">    <span class="keyword">new</span> CopyPlugin([<span class="string">"./package.json"</span>])</div><div class="line">  ]</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">externals</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> manifest = <span class="built_in">require</span>(<span class="string">'../package.json'</span>);</div><div class="line">  <span class="keyword">let</span> dependencies = manifest.dependencies;</div><div class="line">  <span class="keyword">let</span> externals = &#123;&#125;;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">in</span> dependencies) &#123;</div><div class="line">      externals[p] = <span class="string">'commonjs '</span> + p;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> externals;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>由于在不同环境中需要使用不同的数据库配置，可以在<code>build</code>目录中创建<code>profile</code>文件夹，存放不同环境的配置信息</p>
+<p>开发环境配置：<br><figure class="highlight javascript"><figcaption><span>/build/profile/profile.dev.js</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">database</span>: &#123;</div><div class="line">    <span class="attr">user</span>: &#123;</div><div class="line">      <span class="attr">host</span>: <span class="string">"127.0.0.1"</span>, </div><div class="line">      <span class="attr">port</span>: <span class="string">"8066"</span>, </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>测试环境配置：<br><figure class="highlight javascript"><figcaption><span>/build/profile/profile.test.js</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = &#123;</div><div class="line">  <span class="attr">database</span>: &#123;</div><div class="line">    <span class="attr">user</span>: &#123;</div><div class="line">      <span class="attr">host</span>: <span class="string">"192.168.1.100"</span>, </div><div class="line">      <span class="attr">port</span>: <span class="string">"3306"</span>, </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接着将在不同的环境中使用<code>DefinePlugin</code>来替换掉值，编写不同环境的打包配置</p>
+<p>开发环境配置：<br><figure class="highlight javascript"><figcaption><span>/build/webpack.dev.js</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</div><div class="line"><span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">"webpack-merge"</span>)</div><div class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">"./webpack.config.js"</span>)</div><div class="line"><span class="keyword">const</span> profile = <span class="built_in">require</span>(<span class="string">"./profile/profile.dev.js"</span>)</div><div class="line"> </div><div class="line"><span class="comment">//参数值转换为字符串 </span></div><div class="line"><span class="built_in">Object</span>.keys(profile).map(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</div><div class="line">  profile[key] = <span class="built_in">JSON</span>.stringify(profile[key])</div><div class="line">&#125;) </div><div class="line"> </div><div class="line"><span class="comment">//合并基础配置 </span></div><div class="line"><span class="built_in">module</span>.exports = merge(config, &#123;</div><div class="line">  <span class="attr">mode</span>: <span class="string">'development'</span>,</div><div class="line">  <span class="attr">devtool</span>: <span class="string">'eval'</span>,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="comment">//添加替换插件</span></div><div class="line">    <span class="keyword">new</span> webpack.DefinePlugin(profile),</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>测试环境配置：<br><figure class="highlight javascript"><figcaption><span>/build/webpack.test.js</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</div><div class="line"><span class="keyword">const</span> merge = <span class="built_in">require</span>(<span class="string">"webpack-merge"</span>)</div><div class="line"><span class="keyword">const</span> TerserPlugin = <span class="built_in">require</span>(<span class="string">'terser-webpack-plugin'</span>)</div><div class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">"./webpack.config.js"</span>)</div><div class="line"><span class="keyword">const</span> profile = <span class="built_in">require</span>(<span class="string">"./profile/profile.test.js"</span>)</div><div class="line"> </div><div class="line"><span class="comment">//参数值转换为字符串 </span></div><div class="line"><span class="built_in">Object</span>.keys(profile).map(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</div><div class="line">  profile[key] = <span class="built_in">JSON</span>.stringify(profile[key])</div><div class="line">&#125;) </div><div class="line"> </div><div class="line"><span class="comment">//合并基础配置 </span></div><div class="line"><span class="built_in">module</span>.exports = merge(config, &#123;</div><div class="line">  <span class="attr">mode</span>: <span class="string">'production'</span>,</div><div class="line">  <span class="attr">optimization</span>: &#123;</div><div class="line">    <span class="comment">//配置压缩参数</span></div><div class="line">    minimizer: [</div><div class="line">      <span class="keyword">new</span> TerserPlugin(&#123;</div><div class="line">        <span class="attr">terserOptions</span>: &#123;</div><div class="line">          <span class="attr">ecma</span>: <span class="number">5</span></div><div class="line">        &#125;</div><div class="line">      &#125;)</div><div class="line">    ]</div><div class="line">  &#125;,</div><div class="line">  <span class="attr">plugins</span>: [</div><div class="line">    <span class="comment">//添加替换插件</span></div><div class="line">    <span class="keyword">new</span> webpack.DefinePlugin(profile),</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>完成多环境的配置后，就可以直接在代码中使用应用变量标记<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> databaseConfig = database</div></pre></td></tr></table></figure></p>
+<p>这样，代码在合并压缩后，就会将不同<code>profile</code>中定义的值，替换进去，打包后的结果如图<br><img src="/2019/06/03/20190603231900/cat_release_01.png" alt="后端项目合并压缩结果"></p>
+<p>以为到这里就功成身退了么？其实，有个深坑在那里等着。</p>
+<p>前面的一波操作，可以看到主要关注的是发布时候的打包模式。回过头，来看看开发模式。按照后端项目的方式，启动项目<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; node ./src/main.js</div></pre></td></tr></table></figure></p>
+<p>会发现如下提示：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//文件名省略</span></div><div class="line">~XXXXXXX.js:<span class="number">29</span></div><div class="line"><span class="keyword">const</span> databaseConfig = database</div><div class="line">                       ^</div><div class="line"><span class="built_in">ReferenceError</span>: database is not defined</div></pre></td></tr></table></figure></p>
+<p>开发模式已经不能直接运行的了，因为这个<code>database</code>变量只有在<code>webpack</code>打包后才会有具体的值，直接启动会提示未定义。</p>
+<p>总不能每次代码修改都要执行<code>webpack --config ./build/webpack.dev.js</code>打出测试环境的包，然后<code>node ./app.js</code>来启动吧，虽然目的是一致的，但是这种操作，总是有点让人感觉到抓狂，就不能像前端项目那样，直接源文件变更自动编译、还能替换变量适应多环境么？答案是: 还真的可以，只是需要实现一个简易版的类<code>webpack-dev-server</code></p>
+<p><strong>经过多环境的修改，由于源代码中放入了替换标记，导致源代码不能直接执行，必须通过<code>webpack</code>的打包才能获得完整的执行文件</strong>。就是上面说的手动执行的过程，而要实现的简易版开发服务，也正是帮助自动来完成这两步。</p>
+<p>先来讨论下思路，回过头来看前端项目的开发模式，启动开发服务后，就可以直接访问打包后的文件，那么，这些文件在哪里？webpack把打包后的文件放哪里了？答案是：内存文件系统</p>
+<p><strong><code>Memory-fs</code></strong>一个简易的内存文件系统，提供了标准的文件操作接口，<a href="https://github.com/webpack/memory-fs" target="_blank" rel="external">访问项目主页</a>。</p>
+<p>而<code>webpack</code>也提供了<code>inputFileSystem</code>和<code>outputFileSystem</code>接口来可以扩展不同的文件系统。</p>
+<p>先完成第一步，<strong>启动webpack打包，并将结果写入内存文件系统(不落地)</strong></p>
+<p>在项目中添加<code>memory-fs</code>依赖<br><figure class="highlight javascript"><figcaption><span>/package.json</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="string">"devDependencies"</span>: &#123;</div><div class="line">  ……</div><div class="line">  <span class="string">"memory-fs"</span>: <span class="string">"^0.4.1"</span>,</div><div class="line">  ……</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接着，参看<code>webpack-dev-server</code>的方式来简单实现一个开发服务。<br><img src="/2019/06/03/20190603231900/webpack-dev-server.png" alt="前端简易版开发服务"></p>
+<p>在<code>build</code>目录中创建一个<code>start.js</code>来作为开发服务的启动文件<br><figure class="highlight javascript"><figcaption><span>/build/start.js</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">"webpack"</span>)</div><div class="line"><span class="keyword">const</span> MemoryFS = <span class="built_in">require</span>(<span class="string">'memory-fs'</span>)</div><div class="line"><span class="comment">//使用开发模式的webpack配置 </span></div><div class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">'./webpack.dev'</span>)</div><div class="line"> </div><div class="line"><span class="comment">//创建文件服务 </span></div><div class="line"><span class="keyword">const</span> fs = <span class="keyword">new</span> MemoryFS()</div><div class="line"><span class="comment">//创建webpack打包器</span></div><div class="line"><span class="keyword">const</span> compiler = webpack(config); </div><div class="line"> </div><div class="line"><span class="comment">//更改webpack打包器的输出文件系统为内存模式</span></div><div class="line">compiler.outputFileSystem = fs</div><div class="line"> </div><div class="line"><span class="comment">//开始执行打包</span></div><div class="line">compiler.run(<span class="function">(<span class="params">err, stats</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">//输出日志</span></div><div class="line">  <span class="built_in">console</span>.log(stats.toString(&#123;</div><div class="line">    <span class="attr">chunks</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">colors</span>: <span class="literal">true</span></div><div class="line">  &#125;))</div><div class="line"> </div><div class="line">  <span class="comment">//第二步</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><img src="/2019/06/03/20190603231900/cat_webpack.png" alt="打包结果"></p>
+<p>接下来就是第二步，<strong>执行打包后的脚本文件</strong></p>
+<p>执行脚本就简单了，可以从<code>memory-fs</code>中读出文件内容后来进行执行。</p>
+<ul>
+<li>一种执行方式，使用熟悉的<code>eval()</code>函数来执行代码字符串。</li>
+<li>另一种就是使用nodejs的<code>vm</code>模块来执行。</li>
+</ul>
+<p>2.1 <strong>读取编译后的脚本文件</strong><br>由于后端项目打包成了一个<code>app.js</code>，所以直接从<code>webpack</code>的<code>stats</code>中获取打包后的文件路径，然后读取出来<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//开始执行打包</span></div><div class="line">compiler.run(<span class="function">(<span class="params">err, stats</span>) =&gt;</span> &#123;</div><div class="line">  <span class="comment">//输出日志</span></div><div class="line">  <span class="built_in">console</span>.log(stats.toString(&#123;</div><div class="line">    <span class="attr">chunks</span>: <span class="literal">false</span>,</div><div class="line">    <span class="attr">colors</span>: <span class="literal">true</span></div><div class="line">  &#125;))</div><div class="line">  </div><div class="line">  <span class="comment">//获取打包文件输出路径</span></div><div class="line">  <span class="keyword">const</span> file = stats.compilation.outputOptions.path + <span class="string">'/'</span> + stats.compilation.chunks[<span class="number">0</span>].files[<span class="number">0</span>]</div><div class="line">  <span class="comment">//读出文件内容</span></div><div class="line">  <span class="keyword">const</span> content = fs.readFileSync(file)</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>2.2 <strong>执行脚本字符串</strong></p>
+<ul>
+<li><p>使用<code>eval</code>执行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">eval</span>(content.toString())</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>vm</code>执行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> vm = <span class="built_in">require</span>(<span class="string">'vm'</span>)</div><div class="line"><span class="keyword">const</span> NativeModule = <span class="built_in">require</span>(<span class="string">'module'</span>)</div><div class="line"> </div><div class="line"><span class="comment">//将代码字符串包装为nodejs模块，function (exports, require, module, __filename, __dirname) &#123;&#125;</span></div><div class="line"><span class="keyword">const</span> wrapper = NativeModule.wrap(content)</div><div class="line"><span class="comment">//执行函数</span></div><div class="line"><span class="keyword">const</span> result = <span class="keyword">new</span> vm.Script(wrapper).runInThisContext()</div><div class="line"><span class="keyword">const</span> m = &#123; <span class="attr">exports</span>: &#123;&#125; &#125;</div><div class="line">result.call(m, m.exports, <span class="built_in">require</span>, m)</div></pre></td></tr></table></figure>
+<p>相关参考：<a href="http://nodejs.cn/api/vm.html" target="_blank" rel="external">http://nodejs.cn/api/vm.html</a></p>
+<p>好了，这次就先聊这些，非常感谢大家耐心看完。</p>
+<p>刚开始从<code>期望的一个小工具使用形态</code>来完成一个<code>简易版的系统设计</code>，并简单的阐述了<code>系统各模块功能以及交互流程</code>，然后到<code>项目的组织搭建</code>。<br>在开发中又简单的聊了下<code>前后端分离的跨域问题</code>，以及<code>前端在多环境中的打包</code>。<br>最后，又介绍了<code>在nodejs后端项目使用webpack打包</code>、<code>nodejs后端项目的多环境问题</code>以及<code>使用webpack完成nodejs后端项目的开发模式服务</code>。</p>
+<p>期间有对的、不对的随时欢迎大家来信讨论。mailto: daniel-yim@live.com</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2019/06/03/20190603231900.html">
+                  http://chonger.org/2019/06/03/20190603231900.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/webpack/">webpack</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>5</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>1</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>3</small></li>
+  
+    <li><a href="/tags/微信小程序/">微信小程序</a><small>1</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/love/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>9</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2019/06/03/20190603231900.html">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</a>
+      </li>
+    
+      <li>
+        <a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a>
+      </li>
+    
+      <li>
+        <a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a>
+      </li>
+    
+      <li>
+        <a href="/2018/06/06/20180606223000.html">“作死”协奏曲 —— 同步</a>
+      </li>
+    
+      <li>
+        <a href="/2018/01/10/20180110230000.html">好熟悉的阿里云专有网络VPC</a>
+      </li>
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/29/20170829130700.html">Angularjs2 组件(指令)交互</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">2018年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">2018年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">2018年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">2018年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>

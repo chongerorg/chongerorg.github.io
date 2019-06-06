@@ -1,0 +1,360 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一次微信活动刷票的絮叨 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
+  
+  
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,android,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="一次微信活动刷票的絮叨"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">腐草流萤之火，不知红日之光。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2018-12-04T00:50:35.000Z"><a href="/2018/12/04/20181204085000.html">2018-12-04</a></time>
+      
+      
+  
+    <h1 class="title">一次微信活动刷票的絮叨</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="0x00-起因"><a href="#0x00-起因" class="headerlink" title="0x00 起因"></a><strong>0x00 起因</strong></h3><p>近日一好友推来一链接，说是自家猫咪们正在参加一个评选活动，需要投票支持。举手之劳，再加上两只小猫也是从他们小不点的时候看着长大的，甚是讨人喜欢。没咋细看，投完票之后回到首页看到的是这样的</p>
+<p><img src="/2018/12/04/20181204085000/activity1.png" alt="活动首页图"><br><a id="more"></a><br>关注点当时只在小猫上了，随手翻了翻，发现这些参赛的喵们，人气多是单数票，俺们的小喵已经有近200左右的支持，那到底处于什么样的位置呢? </p>
+<p>真心的讲，并没注意看官方的活动界面，只是满脑子琢磨的是这个商家有点意思呀，让大家只投票，不按照排行来，这样很好的避免了最新加入的选手，猛然一下子看到自己距离第一名的落差从而放弃参赛，这样应该更会让选手产生自己有很大优势的错觉呢？</p>
+<p>我想的是必须要很明确的知道，当前小喵虽然200票左右，看起来很有优势，那么，以这个票数具体处于整个比赛的第几梯队？考虑目前一些大众票选活动多数都是10次活动8次骗，是否要抱有巨大期望？ 避免期望越大失望越大。</p>
+<p>落定心思后，直接开干，先来解决心中的疑惑。事后才注意到，人家活动方是提供了排行榜的，是自己没注意到，哈哈，快被自己蠢哭了。<br><img src="/2018/12/04/20181204085000/activity2.png" alt="活动首页图-排行榜"></p>
+<h3 id="0x01-白鹤亮翅"><a href="#0x01-白鹤亮翅" class="headerlink" title="0x01 白鹤亮翅"></a><strong>0x01 白鹤亮翅</strong></h3><p>祭法宝，开撸。由于东西并不复杂，又是基于公开协议的，就非常简单的抓到了数据包。</p>
+<p>经过分析数据包，找到<strong>参与报名人数</strong>和<strong>用户信息分页加载</strong>的接口。</p>
+<p>由于脚本会交给朋友使用，所以，就简单使用<code>nodejs</code>来进行实现。</p>
+<p>1.<strong>获取当前活动的参与报名人数</strong></p>
+<p><img src="/2018/12/04/20181204085000/code1.png" alt="代码片段-获取基础数据信息"></p>
+<pre><code>- 构建请求路径
+- 发送数据请求，获取响应结果
+- 从响应结果中找到需要的数据
+</code></pre><p>2.<strong>获取当前的参与列表</strong></p>
+<p>拿到报名人数后，按照用户分页数据接口每次返回10条进行简单的分页计算，获取到可以加载的总页数，然后使用循环来完成每页数据的加载。为了不给活动官方服务器造成压力，就慢慢的来获取。</p>
+<p><img src="/2018/12/04/20181204085000/code2.png" alt="代码片段-获取用户列表信息"></p>
+<pre><code>- 构建请求路径
+- 构建请求参数
+- 发送数据请求，获取响应结果
+- 解析结果，转换为自己的逻辑对象
+</code></pre><p>加载完数据后，然后对缓存的数据按照票数进行排序处理。</p>
+<p><img src="/2018/12/04/20181204085000/code3.png" alt="代码片段-获取数据并排序"></p>
+<p>最后对排序的结果进行输出，就可得到想要的榜单了。</p>
+<p><img src="/2018/12/04/20181204085000/code4.png" alt="代码片段-输出排行榜"></p>
+<p>非常简单的就拿到了需要的排名表，可以看到虽然靠前，但还是不算太高的。</p>
+<p>有编程基础的朋友可能一眼就看明白怎么回事了，其实这里面涉及的东西也是不少的。</p>
+<p>本来想着通过另一个角度，来展开说说的。原计划是想从外挂的原理、辅助工具的角度开始说，然后到这个事儿其中涉及到的<code>http协议知识</code>、<code>中间人攻击</code>、<code>重放攻击</code>等等。其实也就名字听起来感觉陌生，实际上在编程工作中大家都有用到，只是场景不同罢了，理解起来都是一回事儿。</p>
+<p>由于这里主要想说的是后面的事儿，这里就不过多啰嗦了，喜欢hacker的朋友可以一起多聊聊。</p>
+<h3 id="0x02-野马分鬃"><a href="#0x02-野马分鬃" class="headerlink" title="0x02 野马分鬃"></a><strong>0x02 野马分鬃</strong></h3><p>接下来主要介绍的，也可能是大家关心的了 —— 刷票。</p>
+<p>其实初衷并不是来刷票影响比赛的，虽然也知道这种小成本比赛多数都是内定的。</p>
+<p>但是，听到朋友说正在研究怎么刷票的时候，我心里就跳了一下，既然已经在路上了，也不介意多看一下，于是就抓了下投票的数据包。</p>
+<p>当看到数据包构成的时候，当时心里已经有数儿了。刷票，没有一点积累的是做不到了。</p>
+<p>为什么这么说呢？ 做过微信或者其他平台的第三方服务开发的同学，应该都接触过一个词是：<code>openId</code>，我举个简单的栗子</p>
+<p>应用服务商A在微信平台注册一个应用，获取到安全码：<code>ABC</code><br>应用服务商B在微信平台注册一个应用，获取到安全码：<code>XYZ</code></p>
+<p>同一个用户(<code>OPQ</code>)在分别关注了两个服务商的公众号后，可以获得不同的<code>openId</code>，这个<code>openId</code>就是用户在服务商A或者B系统中唯一的<strong>用户ID</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">OPQ  -&gt; 关注服务商A -&gt; ABC + OPQ = abc123opq</div><div class="line">OPQ  -&gt; 关注服务商B -&gt; XYZ + OPQ = xyz456opq</div></pre></td></tr></table></figure>
+<p>当然具体的算法逻辑比这个要复杂的多。</p>
+<p>投票的接口中使用了当前微信用户的<code>openId</code>，所以，想要刷票，那就得有非常多的微信账户来作为基础。</p>
+<p>正当我准备放弃的时候，扫了一下前面加载分页数据的响应数据包，看到了这个</p>
+<p><img src="/2018/12/04/20181204085000/resp1.png" alt="报文片段-服务端响应数据"></p>
+<p>当前参与者的列表中，竟然将参与者的<code>openId</code>给暴露出来了，更不可思议的竟然还有手机号(前面在做数据对象转换的时候，只关注票数了，还真没注意到)。</p>
+<p>心中默默为这个接口的开发者写一个大大的服字。</p>
+<p>盘算着所有参与者应该都只会支持自家的小喵，每人每天可投3票，那么这些<code>openId</code>每个应该还有再投2票的机会，既然如此，嘿嘿嘿嘿……</p>
+<p>后面就简单了，就按照前面的套路，回补前面的获取用户列表逻辑，构建投票数据包，然后发送数据包。</p>
+<p>假设后台有设计投票流水查看功能，那么还不能让投票显得太过紧凑。所以，就通过代码实现一个10分钟投20票的功能。这20票通过随机时间，散布在十分钟之内，这样使看起来的数据还算合理一些。</p>
+<p><img src="/2018/12/04/20181204085000/console1.png" alt="日志片段-输出执行结果"></p>
+<h3 id="0x03-后记"><a href="#0x03-后记" class="headerlink" title="0x03 后记"></a><strong>0x03 后记</strong></h3><p>最后，想聊一聊的就是关于web系统的安全性，大部分开发者在开发中并不会过多关注这个。毕竟，也都受大环境影响，业务的开发工作量那么多，能实现要求的业务功能就已经很不错了，哪里还会想这么多。</p>
+<p>其实，我觉得这多数取决于开发者的意识，毕竟，更多同学感觉这些更应该是测试人员的事儿。</p>
+<p>当然，最主要的原因就是：价值问题。每天上线的项目、产品不计其数，被攻击的又有多少？</p>
+<p>虽然外界原因有很多，但是，作为一个开发人员，我们也应该顺带的多想想。业务功能是实现了，工作任务也交差了，这样就完事儿了么？尤其是基于前后端分离开发的模式。</p>
+<p>就拿前面刷票的这个问题来说，涉及到的公司暂且不提，也算上市公司，技术能力应该是不弱的。</p>
+<p>代码上来讲，项目里面可能也是<code>DTO</code>、<code>Entity</code>满天飞，我一直不提倡<code>一个实体走天下</code>，要针对不同的<code>View</code>、<code>场景</code>给出不同的数据，并且，要屏蔽掉敏感数据。关于这点，有时候想想我就乐，以前大家还通过各种手段来猜解表字段，现在有的接口中都直接把表字段给列出来了。</p>
+<p>设计上来讲，能基于构建请求参数来完成攻击的，多数都是滥用、校验等级低等。他们的设计可能是这种style：</p>
+<pre><code>- 用户为某条数据进行投票 toupiao(用户ID, 投票目标数据ID); 
+- 前端调用toupiao接口，携带当前用户ID和目标ID;
+</code></pre><p>这样很容易造成<code>越权漏洞</code>，最起码，敏感数据放<code>session</code>中那也是相对安全的！</p>
+<h3 id="0x04-后后记"><a href="#0x04-后后记" class="headerlink" title="0x04 后后记"></a><strong>0x04 后后记</strong></h3><p>本以为一直在第二待着就舒舒服服的了，结果那帮孙子刷的真够狠的，1000多票的距离往开拉，玩的太猛了。</p>
+<p>由于参与人数增长缓慢，这种偷票方式会很快导致动力不足，所以，需要更多的<code>openId</code>。</p>
+<p>猜想，活动官方管理后台应该会有投票记录来方便商家统计使用。</p>
+<p>于是，找到提供活动的官方平台，注册账户。嚯，做的挺齐全的还。</p>
+<p>找到当前活动的模板，然后创建一个Test活动，果不其然，活动的管理后台有每个参与者的投票列表，而且列表的数据中也包含有<code>openId</code>。</p>
+<p>只是，后台整体的健壮性比活动模块要好的多，一些敏感数据也被保护的很好，简单尝试了一些注入和越权，结果都不太理想，由于时间不多，就没有过度深入。等以后有时间了，一定好好办了她。</p>
+<p><img src="/2018/12/04/20181204085000/img1.png" alt="平台图片-活动模板"></p>
+
+      
+    </div>
+    <footer>
+      
+
+        
+          <div class="alignleft post-nav">
+            <em>上一篇: </em><a href="/2019/06/03/20190603231900.html">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</a>
+          </div>
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2018/12/04/20181204085000.html">
+                  http://chonger.org/2018/12/04/20181204085000.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/tools/">工具</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>5</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>1</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>3</small></li>
+  
+    <li><a href="/tags/微信小程序/">微信小程序</a><small>1</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/love/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>9</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2019/06/03/20190603231900.html">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</a>
+      </li>
+    
+      <li>
+        <a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a>
+      </li>
+    
+      <li>
+        <a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a>
+      </li>
+    
+      <li>
+        <a href="/2018/06/06/20180606223000.html">“作死”协奏曲 —— 同步</a>
+      </li>
+    
+      <li>
+        <a href="/2018/01/10/20180110230000.html">好熟悉的阿里云专有网络VPC</a>
+      </li>
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/29/20170829130700.html">Angularjs2 组件(指令)交互</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">2018年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">2018年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">2018年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">2018年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mpvue在前端项目的应用设计 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
+  
+  
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,android,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="mpvue在前端项目的应用设计"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">腐草流萤之火，不知红日之光。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2018-10-23T12:19:41.000Z"><a href="/2018/10/23/20181023202000.html">2018-10-23</a></time>
+      
+      
+  
+    <h1 class="title">mpvue在前端项目的应用设计</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>闲话少叙，书归正传。</p>
+<h3 id="0x00-故事背景"><a href="#0x00-故事背景" class="headerlink" title="0x00 故事背景"></a><strong>0x00 故事背景</strong></h3><p>在有限的人力成本情况下，需要按时上线产品，主要包括：  </p>
+<p><strong>前端项目</strong>：小程序A(C端)、小程序B(B端)、PC管理端<br><strong>后端项目</strong>：平台API项目</p>
+<p>其实站在后端开发来讲，由于是服务于业务的系统，又是产品前期，所以也就<code>Spring Cloud</code>一套打完，这里主要想细说的是前端几个项目的情况。<br><a id="more"></a></p>
+<p>前端开发，在有些朋友描述中可能就是<strong>画画界面</strong>、<strong>获取界面数据</strong>、<strong>调接口</strong>、<strong>显示数据</strong>，然后一直重复着这个过程，就算使用了一些主流框架，也只是更好、更快的画界面、获取界面数据、调接口、显示数据。其实，简单（初级）的前端也好像真是这样，要是真这么理解，那人活着也多没劲呀，整体就是吃、睡，哈哈哈~</p>
+<p>其实自从前端开发宣布独立后，“阶级矛盾”好像也就变成了业务逻辑的前置还是后置的矛盾。尤其是在一些“大前端”的实践中，当然，我也有幸在其他地方看到过，整个后端服务就是一个简单的CRUD服务了。问：后端服务主要做什么用？答：为前端开发提供数据库访问接口。 哈哈，好像也不是没有道理，站在安全的角度考虑，我一直建议业务逻辑后置的，前端尽量回归纯数据展、交互就行。</p>
+<h3 id="0x01-鬼知道我怎么想的"><a href="#0x01-鬼知道我怎么想的" class="headerlink" title="0x01 鬼知道我怎么想的"></a><strong>0x01 鬼知道我怎么想的</strong></h3><p>三个前端项目同步进行开发，那么必然将会有大部分的工作量是重叠的。相信做开发的朋友应该也都了解，前端界面开发、模拟数据交互等工作都是可以直接人工堆出来了。但是，碰到接口联调，再附加上业务联调，多数会因为设计的不完善而造成改改改，在工期上一般会比较耗时。那么这次就想着将三个项目的接口联调给统一化。所以，为了达到统一，首先就需要解决的是<code>微信小程序</code>和<code>web</code>的接口请求了。</p>
+<p>这里不打算详细介绍微信小程序技术，但是也放张图(来自网上)出来，先了解一下为什么要达到一统。</p>
+<p><img src="/2018/10/23/20181023202000/wx-mina.png" alt="小程序示意图"></p>
+<p>微信小程序本质也是一种Hybird App，于是乎熟悉的window、document对象被消失了，当然，也找不到XMLHttpRequest了，还Ajax个鬼。所以，也只能通过官方的<code>wx.request</code>接口来发起网络请求。我们的目标是统一化，所以只能代码对<code>wx.request</code> 和 <code>XMLHttpRequest</code>进行兼容了。这里顺带推荐一个开源项目<a href="https://github.com/wendux/fly" target="_blank" rel="external">Fly.js</a>来作为HttpClien使用。</p>
+<p><code>Fly.js</code>的设计刚好符合我们现阶段的需求，很好的将API请求逻辑和具体的请求执行(引擎)进行了分离，开发人员只需要调用<code>.get()</code>、<code>.post()</code>等函数发起请求，至于是使用<code>wx.request</code>还是<code>XMLHttpRequest</code>，就是我们底层的配置了，与具体业务代码就没有半点关联了，对上层的请求调用逻辑，很好的屏蔽了底层的请求执行。</p>
+<p><strong>闲白：</strong>在以前的PC时代，曾一直喜欢桌面端工具开发，喜欢做一些小工具给大家玩儿。从C#的纯桌面开发到WinFrom + WebKit，再到<a href="https://www.microsoft.com/silverlight/" target="_blank" rel="external">Silverlight</a>、WPF，微软一直不放弃的更新，可是总感觉一直在学习，从未被应用，哈哈哈，难道是我离坑太远了？ 一直到现在的Nodejs跨平台技术，移动端的WebView等跨平台技术，其实思想多数都是一样的，只是一直在更新优化。</p>
+<h3 id="0x02-犹抱琵琶半遮面"><a href="#0x02-犹抱琵琶半遮面" class="headerlink" title="0x02 犹抱琵琶半遮面"></a><strong>0x02 犹抱琵琶半遮面</strong></h3><p>了解过微信小程序开发的同学，应该都比较熟悉<code>setData</code>函数，是的，和其他框架的<code>setState</code>啥的都是一个作用，都是用来主动触发渲染引擎的<code>update</code>操作，最终执行效果是会通知框架渲染逻辑进行数据更新展示。</p>
+<p>很好的一个函数，可是你见过满屏幕的<code>setData</code>逻辑么？哈哈，我有看到过。<code>setData</code>的滥用确实比较严重，一大段逻辑代码中，动不动就来一个<code>setData</code>，尤其是再涉及到数据中key的N层嵌套问题，看着就发燥，是不是很怀念其他框架中的<code>XXX.key = value</code>方式。</p>
+<p>其实不然，就像有这么一句话：当你感觉到轻松（方便）的时候，是因为有人在帮你承担压力。从编码方式来看，直接赋值确实简洁一些，但是相应带来的却是框架在一直监听着你的<code>set</code>操作，从性能上考虑的话，我还没有做过具体的测试，会有多大影响，这个说不好。可我就喜欢直接赋值的方式，哈哈哈，任性。</p>
+<p>到不完全是个人原因，而是从其他方面考虑。说了这么多，这里为什么要先吐槽微信小程序的<code>setData</code>呢，其实主要原因是，微信小程序自身目前并没有很好的状态管理容器，多数情况需要自己去实现简易的管理，或者直接不使用。所以为了快速、方便的开发，必须要集成成熟的<strong><code>redux</code></strong>或者<strong><code>vuex</code></strong>来实现状态管理。</p>
+<p>由于PC版的技术优先确定了下来，需要使用<a href="https://github.com/iview/iview-admin" target="_blank" rel="external"><strong>iview-admin</strong></a>框架来开发，那么开发人员使用<code>vue</code>来做。那么，考虑为了实现微信小程序项目与PC版的一些组件最大限度的复用，<a href="https://github.com/Tencent/wepy" target="_blank" rel="external"><strong>WePy</strong></a>还是<a href="https://github.com/Meituan-Dianping/mpvue" target="_blank" rel="external"><strong>mpvue</strong></a>的选择上也就没啥争议了，管他什么亲儿子的，直接就确定<a href="https://github.com/Meituan-Dianping/mpvue" target="_blank" rel="external"><strong>mpvue</strong></a>了，因为都是<code>vue</code>全家桶，哈哈，也要相应的考虑下开发人员的学习成本。</p>
+<p>至此，整体的前端技术方案也就明确了下来：</p>
+<p><strong>小程序开发：</strong><a href="https://github.com/Meituan-Dianping/mpvue" target="_blank" rel="external"><strong>mpvue</strong></a><br><strong>PC版开发：</strong><a href="https://github.com/iview/iview-admin" target="_blank" rel="external"><strong>iview-admin</strong></a><br><strong>状态管理：</strong><a href="https://vuex.vuejs.org/" target="_blank" rel="external"><strong>vuex</strong></a><br><strong>请求框架：</strong><a href="https://github.com/wendux/fly" target="_blank" rel="external"><strong>Fly.js</strong></a></p>
+<p>接下来，对整体的技术方案进行下介绍。</p>
+<p><strong>闲白：</strong>叨叨了这么久才算进入正题？列位也别嫌我絮叨，在家歇着天天一个人，就话多，哈哈。在以前的C#和Java Swing的开发中，各类组件处理数据展示，尤其是在多线程的情况下，UI主线程的控件同步访问等问题，都是比较烦人的。记得那时有讨论提出要将窗体绘制、数据展示、业务数据处理进行分离，应以数据为主线，数据的变更来驱动界面展示，而不应该是用界面逻辑来驱直接处理数据，应该是业务数据在某一个状态应该由哪个界面来展示。记得当时还专门实现了一套基于插件模式开发的框架，将项目的UI模块作为一个显示插件来使用，通过数据绑定来完成渲染展示。现在想来，也算比较符合当前的Flux思想。</p>
+<h3 id="0x03-整体介绍"><a href="#0x03-整体介绍" class="headerlink" title="0x03 整体介绍"></a><strong>0x03 整体介绍</strong></h3><p>整体方案确定后，那就按照相应的流程给大家画一个整体设计图</p>
+<p><img src="/2018/10/23/20181023202000/fw-flow.png" alt="整体设计图"></p>
+<p>从左向右来看</p>
+<ul>
+<li>微信小程序基于<a href="https://github.com/Meituan-Dianping/mpvue" target="_blank" rel="external"><strong>mpvue</strong></a>开发，PC版使用<a href="https://github.com/iview/iview-admin" target="_blank" rel="external"><strong>iview-admin</strong></a>开发，分别来完成界面的开发和数据的交互。vue通过绑定Store中的数据来提供给界面渲染使用。</li>
+<li><code>Store</code>为<a href="https://vuex.vuejs.org/" target="_blank" rel="external"><strong>Vuex</strong></a>的状态(数据)管理，通过<code>actions</code>和<code>mutations</code>提供相应的业务逻辑处理。在<code>actions</code>中调用<code>Services</code>的模块服务来完成API请求。</li>
+<li><code>Services</code>中的模块服务调用<a href="https://github.com/wendux/fly" target="_blank" rel="external"><strong>Fly.js</strong></a>来完成API请求执行。</li>
+</ul>
+<p>这里有一个地方在实际应用的时候需要考虑一下，那就是<code>Store</code>和<code>Services</code>的拆分。</p>
+<p>其实这里也有是一些顾虑的，如果拆分两层的话，在开发工作量上会有所增加，如何合并都到<code>Store</code>中也是可以的，直接在<code>Store</code>通过<code>HttpClient</code>(fly.js)来请求接口，然后完成响应数据解析处理，也不是不可。最后决定还是进行拆分，主要是不希望<code>Store</code>中有太多的响应数据解析逻辑，应该更专注业务数据的逻辑处理，这样也可以通过在<code>Services</code>层中来模拟数据来进行快速测试，将<code>Services</code>层作为一个轻薄的数据访问(协议)层。</p>
+<p>具体的示例代码来一下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Services中的Article模块</span></div><div class="line"><span class="keyword">import</span> config <span class="keyword">from</span> <span class="string">'../config'</span></div><div class="line"><span class="keyword">import</span> http <span class="keyword">from</span> <span class="string">'../util/HttpClient'</span></div><div class="line"><span class="comment">//导入接口配置</span></div><div class="line"><span class="keyword">const</span> &#123;</div><div class="line">    list    </div><div class="line">&#125; = config.article;</div><div class="line"><span class="comment">//模块代码开始</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    <span class="comment">//声明查询接口</span></div><div class="line">    <span class="keyword">async</span> query(params)&#123;</div><div class="line">        <span class="comment">//POST参数，获取响应数据</span></div><div class="line">        <span class="keyword">const</span> &#123;status,content&#125; =<span class="keyword">await</span> http.post(list, params)</div><div class="line">        <span class="comment">//过滤掉接口参数，只返回业务数据</span></div><div class="line">        <span class="keyword">if</span> (http.isOk(status)) &#123;</div><div class="line">            <span class="keyword">return</span> content</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">throw</span> http.error(status);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Store中对服务调用</span></div><div class="line"><span class="keyword">import</span> articleService <span class="keyword">from</span> <span class="string">'../../service/ArticleService'</span></div><div class="line"><span class="comment">//Vuex state</span></div><div class="line"><span class="keyword">const</span> state = &#123;</div><div class="line">  <span class="attr">listData</span>: []</div><div class="line">&#125;</div><div class="line"><span class="comment">//actions声明</span></div><div class="line"><span class="keyword">const</span> actions =&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">    * 查询列表</div><div class="line">    */</div><div class="line">    <span class="keyword">async</span> query (&#123;commit, dispatch, state&#125;, &#123;op = <span class="number">0</span>&#125;)&#123;</div><div class="line">        <span class="comment">//调用服务获取数据</span></div><div class="line">        <span class="keyword">const</span> queryResult = <span class="keyword">await</span> articleService.query(state.query);</div><div class="line">        <span class="comment">//...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//vue组件使用</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">    <span class="attr">computed</span>: &#123;</div><div class="line">        listData () &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.article.listData</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>整体代码模块层级可以表示为这样的：</p>
+<p><img src="/2018/10/23/20181023202000/fw-modules.png" alt="整体层级图"></p>
+<p>可以看到，我们将<code>Store</code>放在了每个项目中来进行初始化，然后通过<code>Vuex</code>的<code>Module</code>模式，来按照需要的业务模块可以进行自由组合。</p>
+<p>在小程序A示例代码中的<code>Store</code>片段：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></div><div class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">'vuex'</span></div><div class="line"><span class="comment">//导入vuex modules</span></div><div class="line"><span class="comment">//项目自有模块，必须要和其他项目共享</span></div><div class="line"><span class="keyword">import</span> UserModule <span class="keyword">from</span> <span class="string">'./modules/user'</span></div><div class="line"><span class="comment">//公共模块，可与其他项目共享</span></div><div class="line"><span class="keyword">import</span> Activity <span class="keyword">from</span> <span class="string">'XXXX/store/modules/activity'</span></div><div class="line"><span class="keyword">import</span> Article <span class="keyword">from</span> <span class="string">'XXXX/store/modules/article'</span></div><div class="line"><span class="keyword">import</span> EnumModule <span class="keyword">from</span> <span class="string">'XXXX/store/enum'</span></div><div class="line"><span class="comment">//</span></div><div class="line">Vue.use(Vuex)</div><div class="line"><span class="comment">//小程序A的Store创建，组合需要的模块</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Vuex.Store(&#123;</div><div class="line">    <span class="attr">modules</span>: &#123;</div><div class="line">        <span class="attr">user</span>: UserModule,</div><div class="line">        <span class="attr">activity</span>: Activity,</div><div class="line">        <span class="attr">article</span>: Article,</div><div class="line">        <span class="attr">enum</span>: EnumModule</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>当总体的设计都清晰了之后，那么就该来看下项目的结构该如何组织。这里按照上面所述，拆分了5个项目，具体结构如下：</p>
+<p><img src="/2018/10/23/20181023202000/fw-pros.png" alt="项目图"></p>
+<p>可以看出，这里主要分为三个主项目（上层）和两个支撑项目（下层）。支持的项目为公共项目，分别是<code>XXXX-front-api</code>和<code>mp-common</code>，以<code>npm module</code>方式被小程序A、小程序B、Web管理平台来进行依赖引用。</p>
+<ul>
+<li><strong>XXXX-front-api：</strong>该项目主要为业务公共项目，包括共用的<code>Vuex Module</code>、<code>各模块的Services</code>、<code>Fly.js的封装</code>以及<code>常用的Utils</code>等。</li>
+<li><strong>mp-common：</strong>该项目主要对微信小程序项目开发，对小程序的API进行封装，将小程序API的<code>success</code>回调转换为<code>Promise</code>方式，用以支持<code>async/await</code>方式。提供共用的<code>小程序组件</code>、<code>样式</code>、<code>工具类</code>等。</li>
+</ul>
+<p>接下来还要介绍下在项目搭建中要注意的问题，nodejs项目的创建这里就不多说了，具体的<code>npn init</code>或相关<code>框架的脚手架</code>了解下，方便的很。</p>
+<p><strong>git中子项目使用</strong></p>
+<p>首先，使用<code>git</code>来创建我们规划的五个项目，其中有两个公共模块项目，所以需要使用<code>git submodule</code>的方式来在主项目中进行管理，结构如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#主项目-小程序A</span></div><div class="line">/mp-a.git</div><div class="line">    /xxx-front-api.git</div><div class="line">    /mp-common.git</div><div class="line"><span class="comment">#主项目-小程序B</span></div><div class="line">/mp-b.git</div><div class="line">    /xxx-front-api.git</div><div class="line">    /mp-common.git</div><div class="line"><span class="comment">#主项目PC版管理</span></div><div class="line">/mc.git</div><div class="line">    /xxx-front-api.git</div></pre></td></tr></table></figure></p>
+<p><strong>nodejs的本地模块使用</strong></p>
+<p>在<code>nodejs</code>项目中，又涉及到公共模块项目的引用，在<code>java maven</code>中，通常使用<code>mvn install</code>来完成本地模块的安装，而在<code>nodejs</code>项目中，主要使用<code>node_modules</code>文件放置依赖，所以我们可以通过系统的<code>软连接</code>或者直接使用<code>npm link</code>来完成本地模块的软连接创建。这样在三个主项目中任意一个项目中对依赖项目的修改可以让其他项目达到同步使用。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#npm 安装本地项目</span></div><div class="line">npm link ./mp-common</div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment">#在nodejs项目中使用模块</span></div><div class="line">npm install mp-common 或者 yarn add mp-common</div><div class="line"><span class="comment">#</span></div><div class="line"><span class="comment">#项目中就可以直接使用模块了</span></div></pre></td></tr></table></figure></p>
+<p>前面主要介绍了<code>小程序选型mpvue</code>、<code>跨平台的API请求</code>、<code>基于vuex的项目设计</code>，以及项目在搭建过程中需要注意的地方，这次主要以设计为主，具体mpvue在开发中的使用与问题，咱们且听下回分解。</p>
+
+      
+    </div>
+    <footer>
+      
+
+        
+          <div class="alignleft post-nav">
+            <em>上一篇: </em><a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a>
+          </div>
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2018/06/06/20180606223000.html">“作死”协奏曲 —— 同步</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2018/10/23/20181023202000.html">
+                  http://chonger.org/2018/10/23/20181023202000.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/微信小程序/">微信小程序</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>5</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>1</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>3</small></li>
+  
+    <li><a href="/tags/微信小程序/">微信小程序</a><small>1</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/love/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>9</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2019/06/03/20190603231900.html">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</a>
+      </li>
+    
+      <li>
+        <a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a>
+      </li>
+    
+      <li>
+        <a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a>
+      </li>
+    
+      <li>
+        <a href="/2018/06/06/20180606223000.html">“作死”协奏曲 —— 同步</a>
+      </li>
+    
+      <li>
+        <a href="/2018/01/10/20180110230000.html">好熟悉的阿里云专有网络VPC</a>
+      </li>
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/29/20170829130700.html">Angularjs2 组件(指令)交互</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">2018年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">2018年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">2018年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">2018年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>

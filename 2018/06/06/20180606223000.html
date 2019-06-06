@@ -1,0 +1,350 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>“作死”协奏曲 —— 同步 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
+  
+  
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,android,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="“作死”协奏曲 —— 同步"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">腐草流萤之火，不知红日之光。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2018-06-06T14:30:14.000Z"><a href="/2018/06/06/20180606223000.html">2018-06-06</a></time>
+      
+      
+  
+    <h1 class="title">“作死”协奏曲 —— 同步</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>理想很丰满，现实很骨感，汇总一下这段时间自己的“作死”之秀，望好友们“引以为戒”，莫要像我一样捶胸捣足，真的是应了那句老话<code>你以为你以为的就是你以为的</code>。</p>
+<p>其实整个“作死”秀主要围绕着就是<code>同步</code>,亦可理解为<code>协同办公</code>（内心旁白：我不想每天背着那么重的电脑来回跑），可是作为一个“程序猿”，真以为下班出了公司就可以将正在进行的项目置之脑后么，为了自己的轻身大计，毅然决然的踏上了“作死”之路。</p>
+<p>内容预告：<code>ESXI普通主机安装</code>, <code>设想的编译方式</code>, <code>项目代码同步</code>, <code>日常资料同步</code><br><a id="more"></a></p>
+<h3 id="0x00-现有环境铺垫"><a href="#0x00-现有环境铺垫" class="headerlink" title="0x00 现有环境铺垫"></a><strong>0x00 现有环境铺垫</strong></h3><p>首先交代一下作为一个无证程序猿，整天所接触的是什么样子的，也为后续内容(个人数据管理)做个铺垫。</p>
+<p>插个题外话：<strong>为什么不使用现有大厂商的网络存储？</strong>，作为一个对具有数据“收藏癖”的码农一枚，每一次的损失都是刀刀扎心啊</p>
+<ul>
+<li>使用过公网服务器存储（被黑）</li>
+<li>使用移动硬盘存储(使用不当，磁盘坏道，希望能有一种龟速磁盘数据恢复技术)</li>
+<li>使用微盘（新浪）收费后要求下载个人数据，速度慢到令人发指</li>
+<li>使用百度网盘、51网盘、360网盘、快盘等，都已面临或以后面临数据的被屏蔽和导出问题</li>
+<li>……<br>所以，一直想把个人数据(日常照片、学习资料、软件、项目资料等)放到自己易管理、相对安全的地方，当然万事无绝对，但是再也不想经历那种彻夜龟速导数据的事情了。 </li>
+</ul>
+<p>简单的整理了一下目前的一些设备，如图：</p>
+<p><img src="/2018/06/06/20180606223000/net.png" alt="设备网络拓扑"></p>
+<ul>
+<li>NAS设备主要负责静态数据的存储</li>
+<li>家里的服务器(退役笔记本)搭建并提供：nexus(maven, Nuget, Docker, Nodejs)包管理服务、git版本管理服务、Mysql数据服务、禅道(zentao)任务跟踪管理</li>
+<li>开发机主要日常办公开发使用(iMac)</li>
+<li>Exsi平台，虚拟三台主机作为开发测试机</li>
+<li>阿里云ECS主要负责简单web服务、跳板\穿透</li>
+<li>笔记本和硬盘目前随身携带</li>
+</ul>
+<h3 id="0x01-ESXI普通主机安装"><a href="#0x01-ESXI普通主机安装" class="headerlink" title="0x01 ESXI普通主机安装"></a><strong>0x01 ESXI普通主机安装</strong></h3><p>这里点出了一个<code>普通主机</code>，因为官方提供的ESXI的各厂商版本都有与之相对的工作站主机，其实能申请到一台主机(Dell办公主机 + SSD)已经万幸了，作为开发机意义不大，所以想着，可以搭建一套可控的测试环境，可以进行按照自己的需要来进行定制搭建（主要是不要走繁琐的申请流程），也可达到资源的最大化利用，所以最终选择安装<code>ESXI</code>。</p>
+<p>选择Dell版本的<code>ESXI</code>安装镜像，尝试U盘启动安装，果不其然，最后提示<code>网卡驱动找不到</code>，碰到问题那就解决它，并不可怕，按照硬件条件来制作自己的安装包吧。</p>
+<p>启动到PE，然后查看硬件列表，可以看到主机网卡型号是<code>Realtek RTL8186/8111 PCI-E</code>，然后接下来就查找网卡的驱动，我们按照工具(<code>ESXI-Customizer</code>)的要求需要的是<code>OEM.tgz</code>或者<code>VIB</code>格式的驱动文件，如下图</p>
+<p><img src="/2018/06/06/20180606223000/esxi-customizer.png" alt="ESXI-Customizer"></p>
+<p>可以在<a href="https://www.vladan.fr/" target="_blank" rel="external">https://www.vladan.fr/</a> 来找到相应的驱动文件(目前还未深入学习如何迁移驱动，只能先找别人制作好的)，然后使用<code>ESXI- Customizer</code>来打包制作新的安装镜像，制作完成后就可普通的安装方式一致了，然后完成ESXI的安装，最后就可以自由的创建我们需要的虚拟机了。</p>
+<p><img src="/2018/06/06/20180606223000/esxi-info.png" alt="ESXI 宿主机信息"></p>
+<p><img src="/2018/06/06/20180606223000/esxi-vms.png" alt="ESXI 虚拟机信息"></p>
+<h3 id="0x02-设想的编译方式"><a href="#0x02-设想的编译方式" class="headerlink" title="0x02 设想的编译方式"></a><strong>0x02 设想的编译方式</strong></h3><p>由于有了空闲资源，所以就想给利用起来，不然放着也是一种浪费。刚好手头最近在搞一个开源项目，然后使用<code>Gradle</code>来进行编译，全量编译200左右个子项目，速度超慢超卡，分多少内存用多少，所以就打起了空闲主机的注意。</p>
+<p>设想将两台主机（macOS + Ubuntu）的运算资源能否统一起来，比如在iMac上进行代码编辑，然后可以让空闲的Ubuntu来进行编译，而iMac还能干点别的事情，不至于时不时的卡顿。也许有朋友反应快，能想到用持续集成（CI）吧，如果只是简单的使用持续集成，那么就没有什么意思了，而我的设想是<strong>将项目编译所依赖的资源也能统一起来</strong>，比如依赖包、依赖的编译工具等。</p>
+<p>由于是多台独立的主机，磁盘也是完全独立的，所以就想使用磁盘共享的方式来共享数据，说干就干。搭建NFS，想着在同一个网段，速度应该不会太慢，然后将<code>Java SDK</code>、<code>Maven Bin</code>、<code>Maven Repository</code>先挂载上，进行个简单的编译测试，谁成想真是图样图森破。</p>
+<p>速度简直慢的令人发指，自我感觉不应该是这种情况呀，最后和祖老师讨论了下，觉得这样对于内存来说可能省不了多少，所有文件都要走网络传输，再加上办公室的网络设备都不是企业级的，承受不起太大的流量，最后只好放弃了共享磁盘的方案，除非使用专业级的存储设备，或者，通过硬连。</p>
+<p>退而求其次吧，只好先使用持续集成工具了，最后还是选择了熟悉的<code>TeamCity</code>，虽然是最基础的授权，支撑自己日常的开发工作也以足够。在使用<code>TeamCity</code>中遇到了一个比较好玩的事情，给<code>TeamCity</code>配置了多个<strong>BuildAgent</strong>，然后在配置项目编译流程的时候，想着直接通过<code>mvn install</code>到本地就哦了，结果多节点同步编译的时候，依赖仓库都在本地，所以常常出现找不到依赖包，这里需要注意的，只需要将被依赖项目使用<code>mvn deploy</code>，就可编译部署到私服上，就会自动进行同步使用。</p>
+<p>关于将多台主机联合起来组成相对高性能的一台主机使用，也许接触的层次还不够，是时候再深入的学习学习<code>ignite</code>了，预感会有收获的。</p>
+<h3 id="0x03-项目代码同步-amp-日常资料同步"><a href="#0x03-项目代码同步-amp-日常资料同步" class="headerlink" title="0x03 项目代码同步 &amp; 日常资料同步"></a><strong>0x03 项目代码同步 &amp; 日常资料同步</strong></h3><p>终于聊到这个话题了，我感觉聊起这个我都觉得脸红，犯了一个让自己讲出来都觉得丢人的失误。</p>
+<p>平时晚上在家会使用笔记本进行一些工作，白天到公司后，将会使用台式机，所以，两台计算机的一些文件应该是保持同步的，来达到协同办公。曾记得以前<code>快盘</code>等网盘支持同步功能，下载去找时好像也早已不知所踪，而且公司的一些资料也不能完全的随意上传下载，所以就试用了一下几种方案。</p>
+<p><strong>No.00 基于NAS的文件同步</strong><br>利用家里现有的NAS服务，来提供文件同步功能，主要过程是在需要同步的主机上都安装NAS Client端，然后分别设置对应的目录关联，比如主机A上的AA文件夹，关联到NAS上的NN文件夹，在关联主机B的BB文件夹，这样就可以实现文件的传输同步了。</p>
+<p><img src="/2018/06/06/20180606223000/wdSync.png" alt="系统官方同步软件"></p>
+<p>奈何西数的服务在国内时长掉线，又因为考虑数据没敢换群辉，速度上尚可在忍受范围，所以可作为最末方案。此期间遇到一个可乐的事情，让我感觉到程序猿的思维太<del>~</del>。</p>
+<p>具体是这样的，在西数官网下载 NAS Client时，只能找到 <strong>Windows</strong> 版本，<strong>MacOS</strong> 版本就是没有，利用百度、Google进行搜索，都只有 <strong>Windows</strong> 版本，这可让我好一顿抓耳挠腮。太奇怪了，号称全平台支持，怎么就找不到呢？</p>
+<p>当时就看着 <strong>windows</strong> 版本的下载页面看着发呆，西数的资源都是以资源ID的形式来提供出来的，比如: <code>resource?id=288</code>，如果我是他们，那么在版本上线的时候有很大概率会全平台通过测试后一起来发布的，那么在创建资源的时候，按照这种ID多数都是以自动序列存在，那么<strong>MacOS</strong>版本的发布，应该会和<strong>Windows</strong>版本相邻，那么资源ID应该就在<code>288</code>前后，这时脑中就想起一段广告语，我就秉着试一试的态度，买了三个疗程(敲了个回车)，结果下载页面可就真出来了。看来，太习惯搜索引擎了，搜不到的就认为找不到了，这样不好。</p>
+<p><strong>No.01 基于Resilio Sync的文件同步</strong></p>
+<p><img src="/2018/06/06/20180606223000/syncHome_1.png" alt="Sync Home"></p>
+<p>这个也是备受追捧的同步方式，可以实现<strong>P2P</strong>的同步，但是使用<strong>P2P</strong>就需要穿透服务，目前默认使用的是官方的同步服务，应该位于墙外面，据反馈会出现被墙的情况，在测试中没有遇到被墙。想着是自己搭建穿透服务，官方好像也提供了服务的部署包，没有深入的做具体的部署测试，只是对关注的同步服务做了测试。</p>
+<p>整体来说，同步速度还是可以接受的，是个不错的工具，可以通过多种方式来进行分享，有<code>访问连接</code>、<code>生成的唯一序列</code>、<code>二维码</code>等方式。</p>
+<p>就是在这个测试中遇到了让我脸红的问题，感觉速度很OK，然后就设置了笔记本(win10)上的项目目录和iMac上项目目录的同步。</p>
+<p>结果问题就来了，不管在那边编辑后，然后另一边都无法正常的识别项目。突然间幡然醒悟，由于项目的同步，一些IDE的缓存文件也会被同步过去，因为一些系统环境变量、依赖软件安装目录等还有一些其他的因素，导致项目在不同平台上相同IDE生成的配置信息是不一致的。</p>
+<p>看来，项目的同步还是乖乖的使用<code>Git</code>了，在家里搭建了<code>git</code>服务，有需要的小伙伴可以使用哦，访问地址：<a href="http://git.yhcode.com:88" target="_blank" rel="external">http://git.yhcode.com:88</a></p>
+<p><strong>No.10 基于Syncthing的文件同步</strong></p>
+<p><code>Syncting</code>被誉为神器，因为是开源产品，官方地址为：<a href="https://syncthing.net" target="_blank" rel="external">https://syncthing.net</a> ，在设计上应该是和<code>Resilio Sync</code>等其他的产品是一致的，也是支持<code>P2P</code>的传输方式，但是优势是开源。具体还没有正式搭建，不过想着速度应该都是差不多的，等有时间了，详细的搭建一套。</p>
+<p>当然还有其他很多的同步产品，具体都就没有一一做测试了，有兴趣的朋友可以试一试，玩一玩。</p>
+<p>最后，经过几番折腾，还是回到了<code>nexus</code>、<code>持续集成</code>、<code>git</code>的方式上了，这一圈，绕的我真是啼笑皆非。</p>
+
+      
+    </div>
+    <footer>
+      
+
+        
+          <div class="alignleft post-nav">
+            <em>上一篇: </em><a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a>
+          </div>
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2018/01/10/20180110230000.html">好熟悉的阿里云专有网络VPC</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2018/06/06/20180606223000.html">
+                  http://chonger.org/2018/06/06/20180606223000.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/os/">系统应用</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>5</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>1</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>3</small></li>
+  
+    <li><a href="/tags/微信小程序/">微信小程序</a><small>1</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/love/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>9</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2019/06/03/20190603231900.html">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</a>
+      </li>
+    
+      <li>
+        <a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a>
+      </li>
+    
+      <li>
+        <a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a>
+      </li>
+    
+      <li>
+        <a href="/2018/06/06/20180606223000.html">“作死”协奏曲 —— 同步</a>
+      </li>
+    
+      <li>
+        <a href="/2018/01/10/20180110230000.html">好熟悉的阿里云专有网络VPC</a>
+      </li>
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/29/20170829130700.html">Angularjs2 组件(指令)交互</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">2018年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">2018年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">2018年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">2018年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>

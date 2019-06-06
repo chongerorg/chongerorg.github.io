@@ -9,7 +9,7 @@
   <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
   
   
-   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,andorid,ios">
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,android,ios">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
@@ -45,7 +45,7 @@ var _hmt = _hmt || [];
   <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
   <header id="header" class="inner"><div class="alignleft">
   <h1><a href="/">翀儿</a></h1>
-  <h2><a href="/">花开花败，终成一曲流年，花开不败，倾尽一生爱恋。</a></h2>
+  <h2><a href="/">腐草流萤之火，不知红日之光。</a></h2>
 </div>
 <nav id="main-nav" class="alignright">
   <ul>
@@ -67,6 +67,203 @@ var _hmt = _hmt || [];
 </header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2019-06-03T15:19:21.000Z"><a href="/2019/06/03/20190603231900.html">2019-06-03</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2019/06/03/20190603231900.html">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><strong>webpack</strong>这个工具，已经是各大主流框架、项目毕不可少的了，也确实大大方便、简化了开发人员的日常工作。在<code>vue-cli</code>、<code>angular-cli</code>、<code>create-react-app</code>等等一些<strong>脚手架</strong>中也会常常遇到。</p>
+<p>使用<strong>webpack</strong>来构建、打包前端项目，尤其是在<strong>SPA(single-page application)</strong>的场景，已经成为了主流，其中附带的<code>webpack-dev-server</code>也是非常强大的功能。</p>
+<p>但是在nodejs后端项目的构建、打包方面，我也看到了有的社区中的一些讨论，大多数持有的态度为<strong>是不需要的</strong>。其实从我个人的角度来看，我觉得是<strong>非常必要的</strong>，我认同大家所说的<strong>只是脚本项目</strong>、<strong>本来基于nodejs就都是支持的，没必要打包</strong>，我认为打包是必要的，主要指的是<strong>交付</strong>、<strong>部署</strong>方面。</p>
+<p>如果只是站在前端的角度看待问题，<strong>webpack</strong>为项目提供了语法降级兼容、CSS预编译、JS合并压缩、公共代码抽离、图片转码等等，也确实在浏览器兼容性、网页优化等方面拥有非常强大、完善的插件。</p>
+<p>在nodejs的后端项目上，确实是没有这么多事儿的。只有脚本，聚焦的也就是脚本语法转换、打包这些简单的功能，就类似于我们在其他语言开发完模块功能后，都是会打包为<strong>动态链接库</strong>一样，来进行发布、部署。</p>
+<p>具体需不需要在nodejs的后端项目中使用webpack，仁者见仁智者见智，更多的根据实际场景来考虑考虑，也不能一味的追求。</p>
+<p>刚好最近为公司产品做了个<strong>B/S</strong>的小工具，也将自己的一些思考、做法，尽量详细的整理出来，供大家以作参考。<br></p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2019/06/03/20190603231900.html#more" class="more-link">阅读全文</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2018-12-04T00:50:35.000Z"><a href="/2018/12/04/20181204085000.html">2018-12-04</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="0x00-起因"><a href="#0x00-起因" class="headerlink" title="0x00 起因"></a><strong>0x00 起因</strong></h3><p>近日一好友推来一链接，说是自家猫咪们正在参加一个评选活动，需要投票支持。举手之劳，再加上两只小猫也是从他们小不点的时候看着长大的，甚是讨人喜欢。没咋细看，投完票之后回到首页看到的是这样的</p>
+<p><img src="/2018/12/04/20181204085000/activity1.png" alt="活动首页图"><br></p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2018/12/04/20181204085000.html#more" class="more-link">阅读全文</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2018-10-23T12:19:41.000Z"><a href="/2018/10/23/20181023202000.html">2018-10-23</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>闲话少叙，书归正传。</p>
+<h3 id="0x00-故事背景"><a href="#0x00-故事背景" class="headerlink" title="0x00 故事背景"></a><strong>0x00 故事背景</strong></h3><p>在有限的人力成本情况下，需要按时上线产品，主要包括：  </p>
+<p><strong>前端项目</strong>：小程序A(C端)、小程序B(B端)、PC管理端<br><strong>后端项目</strong>：平台API项目</p>
+<p>其实站在后端开发来讲，由于是服务于业务的系统，又是产品前期，所以也就<code>Spring Cloud</code>一套打完，这里主要想细说的是前端几个项目的情况。<br></p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2018/10/23/20181023202000.html#more" class="more-link">阅读全文</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2018-06-06T14:30:14.000Z"><a href="/2018/06/06/20180606223000.html">2018-06-06</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/06/06/20180606223000.html">“作死”协奏曲 —— 同步</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>理想很丰满，现实很骨感，汇总一下这段时间自己的“作死”之秀，望好友们“引以为戒”，莫要像我一样捶胸捣足，真的是应了那句老话<code>你以为你以为的就是你以为的</code>。</p>
+<p>其实整个“作死”秀主要围绕着就是<code>同步</code>,亦可理解为<code>协同办公</code>（内心旁白：我不想每天背着那么重的电脑来回跑），可是作为一个“程序猿”，真以为下班出了公司就可以将正在进行的项目置之脑后么，为了自己的轻身大计，毅然决然的踏上了“作死”之路。</p>
+<p>内容预告：<code>ESXI普通主机安装</code>, <code>设想的编译方式</code>, <code>项目代码同步</code>, <code>日常资料同步</code><br></p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2018/06/06/20180606223000.html#more" class="more-link">阅读全文</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2018-01-10T15:19:56.000Z"><a href="/2018/01/10/20180110230000.html">2018-01-10</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2018/01/10/20180110230000.html">好熟悉的阿里云专有网络VPC</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>刚知道阿里云的【经典网络】选项没了，只留下了一个【专用网络】，原来阿里云已经在<strong>2017年6月14日</strong>开始，取消了【经典网络】，如果不是有人提起还真没注意到。<br><img src="/2018/01/10/20180110230000/aliyun-pay.png" alt="阿里云ECS选择"><br></p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2018/01/10/20180110230000.html#more" class="more-link">阅读全文</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
   <article class="post">
   
   <div class="post-content">
@@ -133,6 +330,50 @@ var _hmt = _hmt || [];
         
           <div class="alignleft">
             <a href="/2017/08/31/20170831142300.html#more" class="more-link">阅读全文</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2017-08-29T05:07:46.000Z"><a href="/2017/08/29/20170829130700.html">2017-08-29</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/08/29/20170829130700.html">Angularjs2 组件(指令)交互</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在组件化开发中，会将相同的功能或者业务封装为独立的组件，以达到组件复用，在各个组件的组合使用中，避免不了在独立组件间进行<strong>数据</strong>和<strong>事件</strong>的传递。</p>
+<p>在Angular1中，我们常常会使用<code>$scope</code>来进行交互绑定，这里我们就按照官方文档的顺序简单聊下Angular2中的交互，主要的交互方式大致有一下途径：</p>
+<ul>
+<li><a href="#sjbd"><strong>通过数据绑定</strong></a></li>
+<li><a href="#zjyy"><strong>通过组件引用</strong></a></li>
+<li><a href="#fwzj"><strong>通过服务组件</strong></a></li>
+</ul>
+<p>接下来将通过一个示例来完成各种方法的学习。<br></p>
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2017/08/29/20170829130700.html#more" class="more-link">阅读全文</a>
           </div>
         
         
@@ -227,242 +468,6 @@ var _hmt = _hmt || [];
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2017-08-09T13:26:39.000Z"><a href="/2017/08/09/20170809212600.html">2017-08-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>首先，我们先弄清楚一些概念性的东西。</p>
-<ul>
-<li><strong>属性型指令</strong> 和 <strong>结构型指令</strong><br>其实通过字面意思我们可以大致理解到：<strong>属性型</strong>就是会改变 DOM 元素的外观或行为。而<strong>结构型</strong>则是修改DOM结构，用来添加、移除或者维护元素。<strong>结构型指令</strong>会以<code>*</code>标记，比如：<code>*ngIf</code>、<code>*ngFor</code>。<br>对照点例子方便理解下，比如在Angular1中的<code>ng-class</code>就是<strong>属性型指令</strong>，使用后会影响元素的外观。而<code>ng-if</code>则是<strong>结构型指令</strong>，可以操作元素的添加或者移除。</li>
-</ul>
-<p>接下来，主要介绍下在开发中需要掌握的知识点：<br></p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2017/08/09/20170809212600.html#more" class="more-link">阅读全文</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2017-08-09T01:34:19.000Z"><a href="/2017/08/09/20170809093400.html">2017-08-09</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a><strong>介绍</strong></h3><p>现阶段，在以微服务架构为主流的项目中，前后端分离是一种常用的方式，这样可以适配于不同的展示端(PC、APP等)。而主流的前端开发框架<code>React</code>、<code>Vue</code>、<code>Angular</code>等也是大家在项目中常常被使用的。</p>
-<p>在这里主要介绍和对Angularjs2的学习做下总结，方便朋友们可以快速的填充自己的知识树。</p>
-<p>在2015年初，Angular.js团队就已经意识到了，Angular.js的演化将会进入死胡同，并不能成为一个可以构建强大应用的工具。所以他们要开始研究一个新的框架，来继承Angularjs的精神。新框架的范围远远大于Angular.js，被称之为平台，因为他们设计提供专业开发人员构建Web应用所需的一切，像Ember和React一样，Angular 使用了基于组件的架构，使用<code>TypeScript</code> 成为其默认的编程语言。<br></p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2017/08/09/20170809093400.html#more" class="more-link">阅读全文</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2017-06-13T09:26:41.000Z"><a href="/2017/06/13/20170613172600.html">2017-06-13</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/06/13/20170613172600.html">VS Code语言配置</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>VS Code近期有进行了一次更新，好像更新后导致了语言的变化，默认变成了英文，虽然说英文的界面对于学习是益的，可是毕竟还是中文用着舒服，下面记录一下VS Code的语言修改方式。</p>
-<p>关于网上说的一些什么查找<code>settings.json</code>文件进行属性修改，这种方法其实是老版本的方式，所以有朋友搜索然后操作发现完全对不上。<br></p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2017/06/13/20170613172600.html#more" class="more-link">阅读全文</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2017-05-21T07:27:26.000Z"><a href="/2017/05/21/20170521152700.html">2017-05-21</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/05/21/20170521152700.html">android的入门知识扫盲</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>已经有很长时间没有去做过Android开发了，最近公司的一个android项目需要进行下整理，然后看过整个项目后觉得整个人都有点不太好了，加上知识的更新迭代，感觉自己所了解的知识已经跟不上android开发组了，所以趁着周末进行了一下恶补，鉴于朋友要求，特意整理了一下文档，供大家查阅 :)</p>
-<p>下面主要对一些基础的 <strong>术语</strong> 进行简单介绍，使大家能快速的了解一些东西。</p>
-<ul>
-<li><p><strong>SDK</strong>: 这个就不过多解释了，Software Development Kit，咱们做开发的应该都是清楚的。android开发，我们需要在开发机上安装相应的SDK环境。</p>
-</li>
-<li><p><strong>ADT</strong>: 由于我之前也是使用<strong>Eclipse</strong>学习Android的，所以ADT(Android Development Tools)是针对于Eclipse的插件。如果我们使用Eclipse作为主开发工具那么就需要安装插件。</p></li></ul>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2017/05/21/20170521152700.html#more" class="more-link">阅读全文</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2017-02-12T14:24:27.000Z"><a href="/2017/02/12/20170212222400.html">2017-02-12</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/02/12/20170212222400.html">解决github博客不被百度蜘蛛采集的办法</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>作为一个喜欢用文字记录的人，我也和其他朋友一样，也都有着相同的经历。从各大博客平台开始，辗转到自己使用VPS假设博客，一直在寻找一种更为简单且低成本的记录方式，以免受一些推广和臃肿的博客系统造成的困扰。</p>
-<p>自从接触Markdown以来也就深深的被她吸引，再加上朋友的推荐也就将自己的博客换到了Github上，可是问题也随之而来，发布在Github上的信息是不会被百度收录的，这对于一个喜欢分享的博客来说是一个致命的问题，也确确实实通过百度的工具看到了索引量直线下降，也特意从网上找到了大家的一些解决办法，并实践归纳如下。<br></p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2017/02/12/20170212222400.html#more" class="more-link">阅读全文</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <time datetime="2017-02-10T01:04:55.000Z"><a href="/2017/02/10/20170210090400.html">2017-02-10</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2017/02/10/20170210090400.html">AngularJs 自定义表单验证(依赖验证)</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>我们在使用Angularjs进行开发时，已经提供了非常完备的表单验证框架，可以帮助我们很好的进行表单的校验工作，可是有时候因为一些业务逻辑的问题，会产生一些特殊的验证问题，这个时候我们就需要在angularjs中使用自定义验证了。</p>
-<p>就比如我们这里的一个简单问题：从下面两张图中可以简单看到，在表单中有个<strong>邮件服务器配置</strong>的选项，如果启用，则必须填写展开的数据项。所以也就是说，关于邮件服务器配置项数据的校验是根据是否启用来做的。<br><img src="/2017/02/10/20170210090400/20170210092317.png" alt="邮件服务器配置默认状态"><br></p>
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2017/02/10/20170210090400.html#more" class="more-link">阅读全文</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-
 
 <!-- <ul class="page-direction" id="page-direction">
     <li><a class="page-prev" href="javascript:;" title="上一页">
@@ -478,7 +483,7 @@ var _hmt = _hmt || [];
     </a></li>
 </ul> -->
 
-    <nav id="page-list" class="page-list"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next</a></nav>
+    <nav id="page-list" class="page-list"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">Next</a></nav>
 
 <!-- <nav id="pagination">
   
@@ -509,19 +514,23 @@ var _hmt = _hmt || [];
   
     <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
   
-    <li><a href="/tags/angularjs2/">angularjs2</a><small>4</small></li>
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>5</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>1</small></li>
   
     <li><a href="/tags/parental/">亲子</a><small>4</small></li>
   
-    <li><a href="/tags/tools/">工具</a><small>2</small></li>
+    <li><a href="/tags/tools/">工具</a><small>3</small></li>
+  
+    <li><a href="/tags/微信小程序/">微信小程序</a><small>1</small></li>
   
     <li><a href="/tags/psychology/">心理</a><small>50</small></li>
   
     <li><a href="/tags/eq/">情商</a><small>46</small></li>
   
-    <li><a href="/tags/桔梗/">桔梗</a><small>2</small></li>
+    <li><a href="/tags/love/">桔梗</a><small>2</small></li>
   
-    <li><a href="/tags/os/">系统应用</a><small>7</small></li>
+    <li><a href="/tags/os/">系统应用</a><small>9</small></li>
   
     <li><a href="/tags/essay/">随笔</a><small>3</small></li>
   
@@ -535,11 +544,35 @@ var _hmt = _hmt || [];
   <ul class="entry">
     
       <li>
+        <a href="/2019/06/03/20190603231900.html">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</a>
+      </li>
+    
+      <li>
+        <a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a>
+      </li>
+    
+      <li>
+        <a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a>
+      </li>
+    
+      <li>
+        <a href="/2018/06/06/20180606223000.html">“作死”协奏曲 —— 同步</a>
+      </li>
+    
+      <li>
+        <a href="/2018/01/10/20180110230000.html">好熟悉的阿里云专有网络VPC</a>
+      </li>
+    
+      <li>
         <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
       </li>
     
       <li>
         <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/29/20170829130700.html">Angularjs2 组件(指令)交互</a>
       </li>
     
       <li>
@@ -558,30 +591,6 @@ var _hmt = _hmt || [];
         <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
       </li>
     
-      <li>
-        <a href="/2017/06/13/20170613172600.html">VS Code语言配置</a>
-      </li>
-    
-      <li>
-        <a href="/2017/05/21/20170521152700.html">android的入门知识扫盲</a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/12/20170212222400.html">解决github博客不被百度蜘蛛采集的办法</a>
-      </li>
-    
-      <li>
-        <a href="/2017/02/10/20170210090400.html">AngularJs 自定义表单验证(依赖验证)</a>
-      </li>
-    
-      <li>
-        <a href="/2016/11/07/20161107000000.html">秋日随感</a>
-      </li>
-    
-      <li>
-        <a href="/2016/09/01/20160901141600.html">黄磊：中国很多父母的教育都是&quot;混蛋&quot;逻辑</a>
-      </li>
-    
   </ul>
 </div>
 
@@ -589,7 +598,7 @@ var _hmt = _hmt || [];
   
   <div class="widget tag">
     <h3 class="title">归档</h3>
-    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">2018年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">2018年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">2018年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">2018年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
   </div>
 
 </aside>
@@ -598,7 +607,7 @@ var _hmt = _hmt || [];
   <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
   <footer id="footer" class="inner"><div class="alignleft">
   
-  &copy; 2017 chonger
+  &copy; 2019 chonger
   
 </div>
 <script>

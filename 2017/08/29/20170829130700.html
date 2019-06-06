@@ -1,0 +1,336 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angularjs2 组件(指令)交互 | 翀儿 - chonger</title>
+  <meta name="author" content="chonger">
+  
+  <meta name="description" content="花开花败，终成一曲流年，花开不败，倾尽一生爱恋。">
+  
+  
+   <meta name="Keywords" content="chonger,翀儿,冲儿,花开花败，终成一曲流年，花开不败，倾尽一生爱恋,前端,技术,心理,C#,Java,Js,Nodejs,android,ios">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Angularjs2 组件(指令)交互"/>
+  <meta property="og:site_name" content="翀儿"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="翀儿" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="/js/jquery.min.js"></script>
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+
+<body>
+  <!--[if lte IE 8]> <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'> <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0027_Simplified Chinese.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." style='margin-left:auto;margin-right:auto;display: block;'/></a></div> <![endif]-->
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">翀儿</a></h1>
+  <h2><a href="/">腐草流萤之火，不知红日之光。</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/categories/tech/">技术</a></li>
+    
+      <li><a href="/categories/life/">生活</a></li>
+    
+      <li><a href="/resume">履历</a></li>
+    
+      <li><a href="/archives">归档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div>
+</header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <time datetime="2017-08-29T05:07:46.000Z"><a href="/2017/08/29/20170829130700.html">2017-08-29</a></time>
+      
+      
+  
+    <h1 class="title">Angularjs2 组件(指令)交互</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在组件化开发中，会将相同的功能或者业务封装为独立的组件，以达到组件复用，在各个组件的组合使用中，避免不了在独立组件间进行<strong>数据</strong>和<strong>事件</strong>的传递。</p>
+<p>在Angular1中，我们常常会使用<code>$scope</code>来进行交互绑定，这里我们就按照官方文档的顺序简单聊下Angular2中的交互，主要的交互方式大致有一下途径：</p>
+<ul>
+<li><a href="#sjbd"><strong>通过数据绑定</strong></a></li>
+<li><a href="#zjyy"><strong>通过组件引用</strong></a></li>
+<li><a href="#fwzj"><strong>通过服务组件</strong></a></li>
+</ul>
+<p>接下来将通过一个示例来完成各种方法的学习。<br><a id="more"></a><br><strong> 准备 </strong><br>首先让我们准备两个组件<code>OuterPanel</code>和<code>InnerPanel</code>，两者为父子级嵌套关系。<br>创建<code>InnerPanel</code>组件，代码如下：<br><figure class="highlight js"><figcaption><span>innerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="comment">/**</span></div><div class="line"> *  &lt;innerPanel&gt;&lt;/innerPanel&gt;</div><div class="line"> */</div><div class="line">@Component(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'innerPanel'</span>,</div><div class="line">  <span class="attr">template</span>: <span class="string">`</span></div><div class="line">      &lt;div class="inner-panel"&gt;inner Panel&lt;/div&gt;</div><div class="line">  `,</div><div class="line">  <span class="attr">styles</span>: [<span class="string">`</span></div><div class="line">    .inner-panel&#123;</div><div class="line">      border: 1px #000 solid;</div><div class="line">      padding: 20px;</div><div class="line">    &#125;</div><div class="line">  `]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerComponent</span> </span>&#123;&#125;</div></pre></td></tr></table></figure></p>
+<p>创建<code>OuterPanel</code>组件，代码如下：<br><figure class="highlight js"><figcaption><span>outerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="comment">/**</span></div><div class="line"> *  &lt;outerPanel&gt;&lt;/outerPanel&gt;</div><div class="line"> */</div><div class="line">@Component(&#123;</div><div class="line">  <span class="attr">selector</span>: <span class="string">'outerPanel'</span>,</div><div class="line">  <span class="attr">template</span>: <span class="string">`</span></div><div class="line">      &lt;div class="outer-panel"&gt;</div><div class="line">        &lt;span&gt;outer Panel&lt;/span&gt;</div><div class="line">        &lt;innerPanel&gt;&lt;/innerPanel&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">  `,</div><div class="line">  <span class="attr">styles</span>: [<span class="string">`</span></div><div class="line">    .outer-panel&#123;</div><div class="line">      border: 1px red solid;</div><div class="line">      width: 500px;</div><div class="line">      padding: 20px;</div><div class="line">    &#125;</div><div class="line">  `]</div><div class="line">&#125;)</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">OuterComponent</span> </span>&#123;&#125;</div></pre></td></tr></table></figure></p>
+<p>然后我们在模板中引用组件<br><figure class="highlight html"><figcaption><span>app.component.html</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">outerPanel</span>&gt;</span><span class="tag">&lt;/<span class="name">outerPanel</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行示例，将会在界面上渲染出如下结果：<br><img src="/2017/08/29/20170829130700/demo-1.png" alt="渲染结果"></p>
+<p>接着我们将扩展上面的两个组件，来完成各种方式的数据交互。</p>
+<p><span id="sjbd"></span><br><strong> 通过数据绑定 </strong></p>
+<p>数据绑定在前面的也有过介绍，这里简单的再提一下。我们需要做个扩展，要求是：在<code>InnerPanel</code>组件中，声明一个变量<code>innerName</code>，然后在<code>InnerPanel</code>的模板中进行展示。<br><figure class="highlight js"><figcaption><span>innerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerComponent</span> </span>&#123;</div><div class="line">  innerName = <span class="string">'Daniel'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在组件中添加变量的声明代码，并修改组件模板进行输出展示。<br><figure class="highlight js"><figcaption><span>innerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">template: <span class="string">`</span></div><div class="line">      &lt;div class="inner-panel"&gt;</div><div class="line">        &lt;span&gt;inner Panel&lt;/span&gt;</div><div class="line">        &lt;div&gt;innerName: &#123;&#123;innerName&#125;&#125;&lt;/div&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">  `,</div></pre></td></tr></table></figure></p>
+<p>保存运行代码，将会看到变量在inner Panel区域输出了。<br><img src="/2017/08/29/20170829130700/demo-2.png" alt="渲染结果"></p>
+<p>当前我们只是简单的输出组件自身的变量值，那么如果是在<code>outerPanel</code>中进行赋值呢？<strong>默认组件中的属性都是私有的，需要设置公共后才能被外界访问</strong>，修改<code>InnerPanel</code>组件代码如下：<br><figure class="highlight js"><figcaption><span>innerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//引入Input</span></div><div class="line"><span class="keyword">import</span> &#123; Component, Input &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line">...</div><div class="line"><span class="comment">//属性添加@Input注解</span></div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerComponent</span> </span>&#123;</div><div class="line">  @Input() innerName = <span class="string">'Daniel'</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后在调用组件的时候，进行赋值：<br><figure class="highlight js"><figcaption><span>outerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">template: <span class="string">`</span></div><div class="line">      &lt;div class="outer-panel"&gt;</div><div class="line">        &lt;span&gt;outer Panel&lt;/span&gt;</div><div class="line">        &lt;!-- 常量赋值 --&gt;</div><div class="line">        &lt;innerPanel innerName="outerName"&gt;&lt;/innerPanel&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">  `,</div></pre></td></tr></table></figure></p>
+<p><img src="/2017/08/29/20170829130700/demo-3.png" alt="渲染结果"><br>可以看到<code>innerName=&quot;outerName&quot;</code>已经生效，传值到了内部组件，这里，如果<code>InnerPanel</code>组件不添加<code>@Input</code>注解，运行时则会报错：<br><figure class="highlight html"><figcaption><span>异常信息</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Uncaught Error: Template parse errors:</div><div class="line">Can't bind to 'innerName' since it isn't a known property of 'innerPanel'. ("    <span class="tag">&lt;<span class="name">span</span>&gt;</span>outer Panel<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>所以，在开发的时候一定要注意属性是否需要设置为公共的。</p>
+<p>前面我们传的值是个常量值，实际开发中多数都是动态的数据，那么下面我们来学习下动态值的传递，其实非常简单，在开始之前，先理解下这几条语句的区别<br><figure class="highlight html"><figcaption><span>示例</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">innerPanel</span> <span class="attr">innerName</span>=<span class="string">"outerName"</span>&gt;</span><span class="tag">&lt;/<span class="name">innerPanel</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">innerPanel</span> <span class="attr">innerName</span>=<span class="string">"&#123;&#123;outerName&#125;&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">innerPanel</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">innerPanel</span> [<span class="attr">innerName</span>]=<span class="string">"outerName"</span>&gt;</span><span class="tag">&lt;/<span class="name">innerPanel</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>语句1：这个已经见到过了，就是将<code>innerPanel</code>的<code>innerName</code>属性赋值为<code>outerName</code>。<br>语句2、3：这两条语句的效果是一样的，都可以实现动态数据的绑定。语句2通过<strong>插值表达式</strong>来绑定输出属性值，然后会绑定更新到<code>innerPanel</code>组件中。语句3直接使用<strong>属性绑定</strong>来绑定组件属性。</p>
+<p>接着我们继续扩展下代码，添加一个按钮事件，来实现属性值的变化，来测试一下动态数据的绑定。<br><figure class="highlight js"><figcaption><span>outerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="comment">//在模板中添加按钮，并绑定事件，同时修改绑定属性名</span></div><div class="line">template: <span class="string">`</span></div><div class="line">      &lt;div class="outer-panel"&gt;</div><div class="line">        &lt;span&gt;outer Panel&lt;/span&gt;</div><div class="line">        &lt;button (click)="change()"&gt;Change&lt;/button&gt;</div><div class="line">        &lt;!-- 这里同时使用两种方式 --&gt;</div><div class="line">        &lt;innerPanel [innerName]="outerName2Inner"&gt;&lt;/innerPanel&gt;</div><div class="line">        &lt;innerPanel innerName="&#123;&#123;outerName2Inner&#125;&#125;"&gt;&lt;/innerPanel&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">  `,</div><div class="line">...</div><div class="line"><span class="comment">//修改属性名，通过计数器来修改属性值</span></div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">OuterComponent</span> </span>&#123;</div><div class="line">  outerName2Inner = <span class="string">"OuterDaniel"</span>;</div><div class="line">  <span class="comment">//通过计时器变动，测试修改效果</span></div><div class="line">  i = <span class="number">0</span>;</div><div class="line">  change()&#123;</div><div class="line">    <span class="keyword">this</span>.outerName2Inner = <span class="string">`Outer Changed:<span class="subst">$&#123;<span class="keyword">this</span>.i++&#125;</span>`</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过点击按钮，我们可以发现外部组件中值的变化会通过绑定关系，传递到内部组件中进行展示。<br><img src="/2017/08/29/20170829130700/demo-4.png" alt="渲染结果"></p>
+<p>接下来我们来试下，函数的绑定，实现将</p>
+<p><span id="zjyy"></span><br><strong> 通过组件引用 </strong></p>
+<p>组件引用的通讯方式，主要有可以细分为两种 <strong>本地变量(local variable)、模板引用变量(Template reference variables)</strong> 和 <strong>@ViewChld()</strong>，这两种方式的核心思想都是在当前的上下文中创建一个对<strong>子组件的引用</strong>，然后通过这个创建的引用来访问子组件的属性和方法。</p>
+<p>最要的区别是：<strong>本地变量</strong>仅能在组件的模板中使用，也就是说只能在HTML中使用。接下来应该是什么，大家应该已经想到了，对的，<strong>@ViewChild()</strong>仅能在组件的JavaScript逻辑中使用的了。接下来，我们继续扩展前面的例子，然后进行学习测试。</p>
+<p>先对<strong>模板引用变量</strong>进行下介绍，分别在组件中加入相应的测试代码<br><figure class="highlight js"><figcaption><span>innerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123; Component, Input &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line">...</div><div class="line">export <span class="class"><span class="keyword">class</span> <span class="title">InnerComponent</span> </span>&#123;</div><div class="line">  ...</div><div class="line">  <span class="comment">//组件中添加一个测试变量，用来在父组件中访问</span></div><div class="line">  innerVarName = <span class="string">'innerVarName'</span>;</div><div class="line">  <span class="comment">//组件中添加一个测试函数，用来在父组件中调用</span></div><div class="line">  innerVarNameChange()&#123;</div><div class="line">    <span class="keyword">this</span>.innerVarName = <span class="string">"innerChanged"</span>;</div><div class="line">  &#125;</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><figcaption><span>outerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="comment">//模板变量引用，可以直接在模板中对组件进行引用</span></div><div class="line">template: <span class="string">`</span></div><div class="line">      &lt;div class="outer-panel"&gt;</div><div class="line">        &lt;span&gt;outer Panel&lt;/span&gt;</div><div class="line">        &lt;button (click)="change()"&gt;Change&lt;/button&gt;</div><div class="line">        &lt;!-- 添加两个按钮，分别通过子组件引用来进行测试：输出子组件的属性和函数调用 --&gt;</div><div class="line">        &lt;button (click)="innerPanel1.innerVarChange()"&gt;&#123;&#123;innerPanel1.innerVarName&#125;&#125;&lt;/button&gt;</div><div class="line">        &lt;button (click)="innerPanel2.innerVarChange()"&gt;&#123;&#123;innerPanel2.innerVarName&#125;&#125;&lt;/button&gt;</div><div class="line">        &lt;!-- 使用#符号，对子组件设置引用 --&gt;</div><div class="line">        &lt;innerPanel #innerPanel1 [innerName]="outerName2Inner"&gt;&lt;/innerPanel&gt;</div><div class="line">        &lt;!-- 使用ref-前缀，对子组件设置引用 --&gt;</div><div class="line">        &lt;innerPanel ref-innerPanel2 innerName="&#123;&#123;outerName2Inner&#125;&#125;"&gt;&lt;/innerPanel&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">  `,</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>点击新增的两个按钮，我们可以看到，对应的Button值已经发生了变化。<br><img src="/2017/08/29/20170829130700/demo-5.png" alt="点击测试按钮结果"></p>
+<p>接着我们来介绍下<strong>@ViewChild()</strong>的方式，主要在<code>OuterComponent</code>中修改下引用方式，代码如下：<br><figure class="highlight js"><figcaption><span>outerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//导入ViewChild、ViewChildren、QueryList和AfterViewInit</span></div><div class="line"><span class="keyword">import</span> &#123; AfterViewInit, Component, ViewChild, ViewChildren, QueryList &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="comment">//导入组件对象</span></div><div class="line"><span class="keyword">import</span> &#123; InnerComponent &#125; <span class="keyword">from</span> <span class="string">'./innerComponent'</span>;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>其中<code>ViewChild</code>和<code>ViewChildren</code>都是可以实现子组件的注入，主要区别在于<code>ViewChildren</code>的注入结果是一个<code>QueryList</code>的集合。</p>
+<p><code>ViewChild</code>和<code>ViewChildren</code>都可以使用通过<code>名称</code>和<code>类型</code>来进行注入，我们在<code>outerComponent.ts</code>中加入如下代码：<br><figure class="highlight js"><figcaption><span>outerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line"><span class="comment">//通过类型进行注入，只使用当前上下文中的第一个子组件实例</span></div><div class="line">@ViewChild(InnerComponent) innerPanel0: InnerComponent;</div><div class="line"><span class="comment">//通过名称进行注入，可以直接对当前模板中的子组件进行指定性的引用</span></div><div class="line">@ViewChild(<span class="string">'innerPanel1'</span>) innerPanel1: InnerComponent;</div><div class="line">@ViewChild(<span class="string">'innerPanel2'</span>) innerPanel2: InnerComponent;</div><div class="line">...</div><div class="line"><span class="comment">//通过类型进行注入，结果为QueryList类型，可从_results中获取子组件信息</span></div><div class="line">@ViewChildren(InnerComponent) innerPanels: QueryList&lt;InnerComponent&gt;;</div><div class="line"><span class="comment">//通过名称进行注入，结果为QueryList类型，可从_results中获取子组件信息</span></div><div class="line"><span class="comment">//(意义不大，这里只是为了介绍，如果只是取指定名称的，直接使用@ViewChild就行)</span></div><div class="line">@ViewChildren(<span class="string">'innerPanel1'</span>) innerPanel3: QueryList&lt;InnerComponent&gt;;</div></pre></td></tr></table></figure></p>
+<p>接下来我们要在父组件中来使用下子组件的引用，我们前面的代码导入了<code>AfterViewInit</code>，然后让组件<code>OuterComponent</code>实现接口。<br><figure class="highlight"><figcaption><span>outerComponent.ts</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">//修改模板代码，用以区分两个子组件</div><div class="line">&lt;innerPanel #innerPanel1 [innerName]="outerName2Inner"&gt;&lt;/innerPanel&gt;</div><div class="line">&lt;innerPanel ref-innerPanel2 innerName="&#123;&#123;outerName2Inner + '-diff'&#125;&#125;"&gt;&lt;/innerPanel&gt;</div><div class="line">...</div><div class="line">export class OuterComponent implements AfterViewInit &#123;</div><div class="line">  ...</div><div class="line">  ngAfterViewInit() &#123;</div><div class="line">    //在View初始化完成后使用组件</div><div class="line">    console.log("@ViewChild(InnerComponent)：", this.innerPanel0);</div><div class="line">    console.log("@ViewChild('innerPanel1')：", this.innerPanel1);</div><div class="line">    console.log("@ViewChild('innerPanel2')：", this.innerPanel2);</div><div class="line">    console.log("@ViewChildren(InnerComponent)：", this.innerPanels);</div><div class="line">    console.log("@ViewChildren('innerPanel1')：", this.innerPanel3);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们看到输出结果：<br>1：蓝框中所示，通过类型引用，默认会使用第一个自组建势力，如果换一下模板中两个子组件的顺序，则这里也会改变<br>2：红框中所示，QueryList是个Array，只有一个长度，表示只拿到了指定的子组件<br>既然已经拿到了组件的引用，那么就可以访问组件的属性和函数了。<br><img src="/2017/08/29/20170829130700/demo-6.png" alt="子组件输出结果"></p>
+<p><span id="fwzj"></span><br><strong> 通过服务组件 </strong></p>
+<p>父子组件通过服务组件来进行通讯，主要利用的就是服务组件的单例模式，然后通过共享服务实例的数据来完成交互。这里我们将会在学习<code>依赖注入</code>和<code>事件</code>时进行介绍，后续会更新链接至此。</p>
+<p><strong> 其他 </strong><br>当然，父子组件间的通讯还有一些其他的方法扩展，比如设置属性的<code>setter</code>访问器或使用组件的<code>ngOnChanges()</code>来监听输入值改变，两种方式的使用原型如下，大家可以自行测试使用一下，具体的方法选用，还得主要看具体的业务场景，来选择合适的方法。</p>
+<figure class="highlight js"><figcaption><span>setter</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//通过设置setter来获取输入绑定，官方示例</span></div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">NameChildComponent</span> </span>&#123;</div><div class="line">  private _name = <span class="string">''</span>;</div><div class="line">  @Input()</div><div class="line">  set name(name: string) &#123;</div><div class="line">    <span class="keyword">this</span>._name = (name &amp;&amp; name.trim()) || <span class="string">'&lt;no name set&gt;'</span>;</div><div class="line">  &#125;</div><div class="line">  get name(): string &#123; <span class="keyword">return</span> <span class="keyword">this</span>._name; &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//通过实现ngOnChanges方法来获取组件属性变更</span></div><div class="line"><span class="keyword">import</span> &#123; Component, Input, OnChanges, SimpleChange &#125; <span class="keyword">from</span> <span class="string">'@angular/core'</span>;</div><div class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">VersionChildComponent</span> <span class="title">implements</span> <span class="title">OnChanges</span> </span>&#123;</div><div class="line">  @Input() major: number;</div><div class="line">  @Input() minor: number;</div><div class="line">  changeLog: string[] = [];</div><div class="line">  <span class="comment">//实现方法</span></div><div class="line">  ngOnChanges(changes: &#123;[propKey: string]: SimpleChange&#125;) &#123;</div><div class="line">    <span class="keyword">let</span> log: string[] = [];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> propName <span class="keyword">in</span> changes) &#123;</div><div class="line">      <span class="keyword">let</span> changedProp = changes[propName];</div><div class="line">      <span class="keyword">let</span> to = <span class="built_in">JSON</span>.stringify(changedProp.currentValue);</div><div class="line">      <span class="keyword">if</span> (changedProp.isFirstChange()) &#123;</div><div class="line">        log.push(<span class="string">`Initial value of <span class="subst">$&#123;propName&#125;</span> set to <span class="subst">$&#123;to&#125;</span>`</span>);</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">let</span> <span class="keyword">from</span> = <span class="built_in">JSON</span>.stringify(changedProp.previousValue);</div><div class="line">        log.push(<span class="string">`<span class="subst">$&#123;propName&#125;</span> changed from <span class="subst">$&#123;<span class="keyword">from</span>&#125;</span> to <span class="subst">$&#123;to&#125;</span>`</span>);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.changeLog.push(log.join(<span class="string">', '</span>));</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+
+        
+          <div class="alignleft post-nav">
+            <em>上一篇: </em><a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+          </div>
+        
+        
+          <div class="alignright post-nav">
+            <em>下一篇: </em><a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+          </div>
+          <div class="clearfix"></div>
+        
+
+        
+          <div class="copyright">
+            
+              <span class="claim">版权声明：转载请注明出处</span>
+            
+            
+              <span class="from-link">
+                <em>本文链接地址:</em>
+                <a href="/2017/08/29/20170829130700.html">
+                  http://chonger.org/2017/08/29/20170829130700.html
+                </a>
+              </span>
+            
+          </div>
+        
+        
+  
+  <div class="categories">
+    <a href="/categories/tech/">技术</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/angularjs2/">angularjs2</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索一下">
+    <i class="icon-search"></i>
+    <input type="hidden" name="si" value="site:chonger.org">
+    <input name=tn type=hidden value="bds">
+    <input name=cl type=hidden value="3">
+    <input name=ct type=hidden value="2097152">
+    <input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/android/">android</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs/">angularjs</a><small>1</small></li>
+  
+    <li><a href="/tags/angularjs2/">angularjs2</a><small>5</small></li>
+  
+    <li><a href="/tags/webpack/">webpack</a><small>1</small></li>
+  
+    <li><a href="/tags/parental/">亲子</a><small>4</small></li>
+  
+    <li><a href="/tags/tools/">工具</a><small>3</small></li>
+  
+    <li><a href="/tags/微信小程序/">微信小程序</a><small>1</small></li>
+  
+    <li><a href="/tags/psychology/">心理</a><small>50</small></li>
+  
+    <li><a href="/tags/eq/">情商</a><small>46</small></li>
+  
+    <li><a href="/tags/love/">桔梗</a><small>2</small></li>
+  
+    <li><a href="/tags/os/">系统应用</a><small>9</small></li>
+  
+    <li><a href="/tags/essay/">随笔</a><small>3</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">最新文章</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2019/06/03/20190603231900.html">前后端分离的跨域介绍，以及使用webpack构建前端、Nodejs后端项目</a>
+      </li>
+    
+      <li>
+        <a href="/2018/12/04/20181204085000.html">一次微信活动刷票的絮叨</a>
+      </li>
+    
+      <li>
+        <a href="/2018/10/23/20181023202000.html">mpvue在前端项目的应用设计</a>
+      </li>
+    
+      <li>
+        <a href="/2018/06/06/20180606223000.html">“作死”协奏曲 —— 同步</a>
+      </li>
+    
+      <li>
+        <a href="/2018/01/10/20180110230000.html">好熟悉的阿里云专有网络VPC</a>
+      </li>
+    
+      <li>
+        <a href="/2017/09/01/20170901233100.html">(又被黑)基于MySql的弱口令入侵</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/31/20170831142300.html">记服务器被入侵过程分析(基于Redis弱口令入侵)</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/29/20170829130700.html">Angularjs2 组件(指令)交互</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/17/20170817215600.html">Angularjs2 指令</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/14/20170814171100.html">Angularjs2 再谈数据绑定</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809212600.html">Angularjs2 基础模板语法学习</a>
+      </li>
+    
+      <li>
+        <a href="/2017/08/09/20170809093400.html">Angularjs2 介绍以及学习大纲</a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">归档</h3>
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">2019年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">2018年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">2018年10月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">2018年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">2018年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">2017年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">2017年08月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">2017年06月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">2017年05月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">2017年02月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">2016年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">2016年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">2016年08月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">2015年09月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">2015年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">2015年03月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">2015年02月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">2015年01月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">2014年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">2014年10月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">2014年09月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/08/">2014年08月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/07/">2014年07月</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">2014年06月</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">2014年05月</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/04/">2014年04月</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">2014年03月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/02/">2014年02月</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/01/">2014年01月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">2013年12月</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/11/">2013年11月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/10/">2013年10月</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">2013年09月</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">2013年08月</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07/">2013年07月</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06/">2013年06月</a><span class="archive-list-count">4</span></li></ul>
+  </div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <div id="go-pg-top"><i class="icon-arrow-up"></i></div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2019 chonger
+  
+</div>
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/page.js"></script>
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?36a5bdef893db1564a582f1a01b1aa82";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</body>
+
+</html>
